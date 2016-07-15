@@ -78,7 +78,8 @@ if [ ! -d "gradle/wrapper" ]; then
     echo "Downloading gradle"
     GRADLE_VERSION=2.10
     GRADLE_URL=http://download.videolan.org/pub/contrib/gradle-${GRADLE_VERSION}-all.zip
-    wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL}
+   # wget ${GRADLE_URL} 2>/dev/null || 
+    curl -O ${GRADLE_URL}
     checkfail "gradle: download failed"
 
     unzip -o gradle-${GRADLE_VERSION}-all.zip
@@ -152,7 +153,7 @@ fi
 ####################
 # Fetch VLC source #
 ####################
-
+#if [1!=1];then
 TESTED_HASH=b7ea526
 if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
@@ -171,7 +172,7 @@ EOF
     fi
     cd ..
 fi
-
+#fi
 ############
 # Make VLC #
 ############
