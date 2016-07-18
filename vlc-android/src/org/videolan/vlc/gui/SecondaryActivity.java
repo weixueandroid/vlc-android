@@ -153,8 +153,6 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
             ((AudioAlbumFragment) mFragment).setMediaList(mediaList, filter);
         } else if(id.equals(EQUALIZER)) {
             mFragment = new EqualizerFragment();
-        } else if(id.equals(ABOUT)) {
-            mFragment = new AboutFragment();
         } else if(id.equals(MEDIA_INFO)) {
             mFragment = new MediaInfoFragment();
             ((MediaInfoFragment)mFragment).setMediaLocation(getIntent().getStringExtra("param"));

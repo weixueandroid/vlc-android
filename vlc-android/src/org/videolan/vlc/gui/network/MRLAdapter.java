@@ -67,7 +67,7 @@ public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 UiTools.setKeyboardVisibility(holder.itemView, false);
-                MediaUtils.openStream(v.getContext(), uri);
+                MediaUtils.openStream(v.getContext(), uri, "测试");
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {

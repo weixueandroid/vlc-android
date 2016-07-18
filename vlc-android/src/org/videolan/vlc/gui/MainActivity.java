@@ -77,7 +77,6 @@ import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.browser.FileBrowserFragment;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
-import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
 import org.videolan.vlc.gui.helpers.SearchSuggestionsAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.network.MRLPanelFragment;
@@ -247,7 +246,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             item.setTitle(R.string.open);
         }
 
-        mNavigationView.getMenu().findItem(R.id.nav_history).setVisible(mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true));
+        //mNavigationView.getMenu().findItem(R.id.nav_history).setVisible(mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true));
 
 
         if (AndroidUtil.isLolliPopOrLater())
@@ -466,12 +465,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 return new AudioBrowserFragment();
             case R.id.nav_directories:
                 return new FileBrowserFragment();
-            case R.id.nav_history:
-                return new HistoryFragment();
+        /*    case R.id.nav_history:
+                return new HistoryFragment();*/
             case R.id.nav_mrl:
                 return new MRLPanelFragment();
-            case R.id.nav_network:
-                return new NetworkBrowserFragment();
             default:
                 return new VideoGridFragment();
         }
@@ -587,19 +584,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 item.setTitle(R.string.sortby_date);
         }
 
-        if (current instanceof NetworkBrowserFragment &&
-                !((NetworkBrowserFragment)current).isRootDirectory()) {
-            MenuItemCompat.setShowAsAction(menu.findItem(R.id.ml_menu_search), MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-            item = menu.findItem(R.id.ml_menu_save);
-            item.setVisible(true);
-            String mrl = ((BaseBrowserFragment)current).mMrl;
-            boolean isFavorite = MediaDatabase.getInstance().networkFavExists(Uri.parse(mrl));
-            item.setIcon(isFavorite ?
-                    R.drawable.ic_menu_bookmark_w :
-                    R.drawable.ic_menu_bookmark_outline_w);
-            item.setTitle(isFavorite ? R.string.favorites_remove : R.string.favorites_add);
-        } else
-            menu.findItem(R.id.ml_menu_save).setVisible(false);
+
         if (current instanceof IHistory)
             menu.findItem(R.id.ml_menu_clean).setVisible(!((IHistory) current).isEmpty());
         boolean showLast = current instanceof AudioBrowserFragment || current instanceof VideoGridFragment;
@@ -661,12 +646,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 if (current instanceof IHistory)
                     ((IHistory)current).clearHistory();
                 break;
-            case R.id.ml_menu_save:
-                if (current == null)
-                    break;
-                ((NetworkBrowserFragment)current).toggleFavorite();
-                item.setIcon(R.drawable.ic_menu_bookmark_w);
-                break;
+
         }
         mDrawerLayout.closeDrawer(mNavigationView);
         return super.onOptionsItemSelected(item);
@@ -873,9 +853,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
             String tag = getTag(id);
             switch (id){
-                case R.id.nav_about:
+              /*  case R.id.nav_about:
                     showSecondaryFragment(SecondaryActivity.ABOUT);
-                    break;
+                    break;*/
                 case R.id.nav_settings:
                     startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
                     break;
@@ -921,16 +901,16 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
     private String getTag(int id){
         switch (id){
-            case R.id.nav_about:
-                return ID_ABOUT;
+          /*  case R.id.nav_about:
+                return ID_ABOUT;*/
             case R.id.nav_settings:
                 return ID_PREFERENCES;
             case R.id.nav_audio:
                 return ID_AUDIO;
             case R.id.nav_directories:
                 return ID_DIRECTORIES;
-            case R.id.nav_history:
-                return ID_HISTORY;
+ /*           case R.id.nav_history:
+                return ID_HISTORY;*/
             case R.id.nav_mrl:
                 return ID_MRL;
             case R.id.nav_network:

@@ -69,6 +69,7 @@ import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
+import org.videolan.vlc.gui.video.MediaInfo;
 import org.videolan.vlc.gui.video.PopupManager;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaDatabase;
@@ -1614,6 +1615,35 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         load(mediaList, position);
     }
 
+    /**
+     * Loads a selection of files (a non-user-supplied collection of media)
+     * into the primary or "currently playing" playlist.
+     *
+     * @param mediaPathList A list of locations to load
+     * @param position The position to start playing at
+     */
+    @MainThread
+    public void loadMediaInfo(List<MediaInfo> mediaPathList, int position) {
+        ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
+        MediaDatabase db = MediaDatabase.getInstance();
+
+        for (int i = 0; i < mediaPathList.size(); i++) {
+            String location = mediaPathList.get(i).getPath();
+            MediaWrapper mediaWrapper = db.getMedia(Uri.parse(location));
+            if (mediaWrapper == null) {
+                if (!validateLocation(location)) {
+                    Log.w(TAG, "Invalid location " + location);
+                    showToast(getResources().getString(R.string.invalid_location, location), Toast.LENGTH_SHORT);
+                    continue;
+                }
+                Log.v(TAG, "Creating on-the-fly Media object for " + location);
+                mediaWrapper = new MediaWrapper(Uri.parse(location), mediaPathList.get(i).getTitle());
+            }
+            mediaList.add(mediaWrapper);
+        }
+        load(mediaList, position);
+    }
+
     @MainThread
     public void loadUri(Uri uri) {
         String path = uri.toString();
@@ -1626,6 +1656,16 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public void loadLocation(String mediaPath) {
         loadLocations(Collections.singletonList(mediaPath), 0);
+    }
+
+    @MainThread
+    public void loadLocation(String mediaPath, String title) {
+        List<MediaInfo> array = new ArrayList<MediaInfo>();
+        MediaInfo mediaInfo = new MediaInfo();
+        mediaInfo.setPath(mediaPath);
+        mediaInfo.setTitle(title);
+        array.add(mediaInfo);
+        loadMediaInfo(array, 0);
     }
 
     @MainThread

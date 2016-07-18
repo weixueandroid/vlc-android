@@ -30,10 +30,10 @@
         android:title="@string/open_mrl"
         android:icon="@drawable/ic_menu_goto" />
 
-    <item
+ <!--   <item
         android:id="@+id/nav_history"
         android:title="@string/history"
-        android:icon="@drawable/ic_menu_history" />
+        android:icon="@drawable/ic_menu_history" />-->
     </group>
     <group android:id="@+id/fixed_group"
         android:checkableBehavior="single"
@@ -43,9 +43,9 @@
             android:title="@string/preferences"
             android:icon="@drawable/ic_menu_preferences" />
 
-        <item
+     <!--   <item
             android:id="@+id/nav_about"
             android:title="@string/about"
-            android:icon="@drawable/ic_menu_cone" />
+            android:icon="@drawable/ic_menu_cone" />-->
     </group>
 </menu>

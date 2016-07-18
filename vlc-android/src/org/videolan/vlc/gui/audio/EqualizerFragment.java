@@ -45,6 +45,7 @@ import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
 import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.gui.view.EqualizerBar;
 
+// 均衡器
 public class EqualizerFragment extends PlaybackServiceFragment {
 
     public final static String TAG = "VLC/EqualizerFragment";

@@ -129,6 +129,21 @@ public class MediaUtils {
         });
     }
 
+    public static void openStream(final Context context, final String uri, final String title){
+        if (uri == null)
+            return;
+        new DialogCallback(context, new DialogCallback.Runnable() {
+            @Override
+            public void run(PlaybackService service) {
+                if(TextUtils.isEmpty(title)) {
+                    service.loadLocation(uri);
+                } else {
+                    service.loadLocation(uri, title);
+                }
+            }
+        });
+    }
+
     public static String getMediaArtist(Context ctx, MediaWrapper media) {
         final String artist = media.getArtist();
         return artist != null ? artist : getMediaString(ctx, R.string.unknown_artist);

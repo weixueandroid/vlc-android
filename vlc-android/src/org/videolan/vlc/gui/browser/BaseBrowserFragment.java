@@ -54,6 +54,7 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.tv.browser.NetworkBrowserFragment;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IRefreshable;
@@ -434,14 +435,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 //                }
                 menu.findItem(R.id.directory_view_play_folder).setVisible(!isEmpty);
                 menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
-            if (this instanceof NetworkBrowserFragment) {
-                MediaDatabase db = MediaDatabase.getInstance();
-                if (db.networkFavExists(mw.getUri())) {
-                    menu.findItem(R.id.network_remove_favorite).setVisible(true);
-                    menu.findItem(R.id.network_edit_favorite).setVisible(!TextUtils.equals(mw.getUri().getScheme(), "upnp"));
-                } else
-                    menu.findItem(R.id.network_add_favorite).setVisible(true);
-            }
+
         } else {
             inflater.inflate(R.menu.directory_view_file, menu);
             boolean canPlayInList =  mw.getType() == MediaWrapper.TYPE_AUDIO ||
@@ -566,7 +560,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     protected void parseSubDirectories() {
-        if ((mRoot && this instanceof NetworkBrowserFragment) || mCurrentParsedPosition == -1 ||
+        if (mCurrentParsedPosition == -1 ||
                 mAdapter.isEmpty() || this instanceof FilePickerFragment)
             return;
         mFoldersContentLists.clear();

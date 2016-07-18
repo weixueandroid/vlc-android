@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+// 关于viewpager
 public class AudioPagerAdapter extends PagerAdapter {
 
     private List<View> mLists;

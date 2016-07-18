@@ -102,6 +102,21 @@ public class MediaWrapper implements Parcelable {
 
     /**
      * Create a new MediaWrapper
+     * @param uri Should not be null.
+     * @param title Should not be null.
+     */
+    public MediaWrapper(Uri uri, String title) {
+        if (uri == null)
+            throw new NullPointerException("uri was null");
+        if (title == null)
+            throw new NullPointerException("title was null");
+        mUri = uri;
+        mTitle = title;
+        init(null);
+    }
+
+    /**
+     * Create a new MediaWrapper
      * @param media should be parsed and not NULL
      */
     public MediaWrapper(Media media) {

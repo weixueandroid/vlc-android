@@ -37,6 +37,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.databinding.DirectoryViewItemBinding;
 import org.videolan.vlc.gui.helpers.MediaComparators;
+import org.videolan.vlc.gui.tv.browser.NetworkBrowserFragment;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
@@ -105,9 +106,6 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         vh.binding.setMedia(media);
         vh.binding.setType(TYPE_MEDIA);
         vh.binding.setHasContextMenu(true);
-        if (fragment instanceof NetworkBrowserFragment && fragment.isRootDirectory())
-            vh.binding.setProtocol(getProtocol(media));
-        vh.binding.executePendingBindings();
 
         vh.binding.dviIcon.setBackgroundResource(getIconResId(media));
 
@@ -381,7 +379,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
     protected String getProtocol(MediaWrapper media) {
-        if (!fragment.isRootDirectory() || !(fragment instanceof NetworkBrowserFragment))
+        if (!fragment.isRootDirectory())
             return null;
         if (media.getType() != MediaWrapper.TYPE_DIR)
             return null;
