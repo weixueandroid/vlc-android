@@ -465,8 +465,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 return new AudioBrowserFragment();
             case R.id.nav_directories:
                 return new FileBrowserFragment();
-        /*    case R.id.nav_history:
-                return new HistoryFragment();*/
+
             case R.id.nav_mrl:
                 return new MRLPanelFragment();
             default:
@@ -909,12 +908,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 return ID_AUDIO;
             case R.id.nav_directories:
                 return ID_DIRECTORIES;
- /*           case R.id.nav_history:
-                return ID_HISTORY;*/
             case R.id.nav_mrl:
                 return ID_MRL;
-            case R.id.nav_network:
-                return ID_NETWORK;
             default:
                 return ID_VIDEO;
         }
