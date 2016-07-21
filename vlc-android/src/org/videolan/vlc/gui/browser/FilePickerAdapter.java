@@ -66,7 +66,7 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
         final MediaWrapper media = (MediaWrapper) getItem(holder.getAdapterPosition());
         if (media.getType() == MediaWrapper.TYPE_DIR)
             fragment.browse(media, holder.getAdapterPosition(), true);
-        else
-            ((FilePickerFragment)fragment).pickFile(media);
+       /* else
+            ((FilePickerFragment)fragment).pickFile(media);*/
     }
 }

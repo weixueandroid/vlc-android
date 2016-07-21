@@ -534,7 +534,7 @@
             android:theme="@style/Theme.Leanback" />
 
         <activity android:name="org.videolan.vlc.VideoActivity">
-           <!-- <intent-filter>
+          <!--  <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />

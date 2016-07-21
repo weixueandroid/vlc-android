@@ -34,7 +34,6 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioAlbumFragment;
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
-import org.videolan.vlc.gui.browser.StorageBrowserFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
@@ -120,11 +119,7 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case android.R.id.home:
-                Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
-                if (current instanceof StorageBrowserFragment)
-                    ((StorageBrowserFragment) current).goBack();
-                else
-                    finish();
+                finish();
                 return true;
             case R.id.ml_menu_sortby_name:
             case R.id.ml_menu_sortby_length:
@@ -159,8 +154,6 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
         } else if(id.equals(VIDEO_GROUP_LIST)) {
             mFragment = new VideoGridFragment();
             ((VideoGridFragment) mFragment).setGroup(getIntent().getStringExtra("param"));
-        } else if (id.equals(STORAGE_BROWSER)){
-            mFragment = new StorageBrowserFragment();
         } else {
             throw new IllegalArgumentException("Wrong fragment id.");
         }

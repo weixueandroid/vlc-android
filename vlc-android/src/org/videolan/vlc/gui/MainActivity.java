@@ -75,7 +75,6 @@ import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
-import org.videolan.vlc.gui.browser.FileBrowserFragment;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.SearchSuggestionsAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -242,8 +241,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     private void setupNavigationView() {
         mNavigationView = (NavigationView) findViewById(R.id.navigation);
         if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
-            MenuItem item = mNavigationView.getMenu().findItem(R.id.nav_directories);
-            item.setTitle(R.string.open);
+
         }
 
         //mNavigationView.getMenu().findItem(R.id.nav_history).setVisible(mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true));
@@ -463,8 +461,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         switch (id) {
             case R.id.nav_audio:
                 return new AudioBrowserFragment();
-            case R.id.nav_directories:
-                return new FileBrowserFragment();
+
 
             case R.id.nav_mrl:
                 return new MRLPanelFragment();
@@ -858,14 +855,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 case R.id.nav_settings:
                     startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
                     break;
-                case R.id.nav_directories:
-                    if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("audio/* video/*");
-                        startActivityForResult(intent, ACTIVITY_RESULT_OPEN);
-                        mDrawerLayout.closeDrawer(mNavigationView);
-                        return true;
-                    }
                 default:
                 /* Slide down the audio player */
                     slideDownAudioPlayer();
@@ -900,14 +889,12 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
     private String getTag(int id){
         switch (id){
-          /*  case R.id.nav_about:
-                return ID_ABOUT;*/
+
             case R.id.nav_settings:
                 return ID_PREFERENCES;
             case R.id.nav_audio:
                 return ID_AUDIO;
-            case R.id.nav_directories:
-                return ID_DIRECTORIES;
+
             case R.id.nav_mrl:
                 return ID_MRL;
             default:

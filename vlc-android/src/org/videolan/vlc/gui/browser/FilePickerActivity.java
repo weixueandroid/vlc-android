@@ -37,7 +37,7 @@ public class FilePickerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.file_picker_activity);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_placeholder, new FilePickerFragment(), "picker");
+       // ft.replace(R.id.fragment_placeholder, new FilePickerFragment(), "picker");
         ft.commit();
     }
 
@@ -46,7 +46,7 @@ public class FilePickerActivity extends AppCompatActivity {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             super.onBackPressed();
         } else {
-            ((FilePickerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)).browseUp();
+            //((FilePickerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)).browseUp();
         }
     }
 }

@@ -199,11 +199,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         if (mRoot)
             return null;
         String mrl = Strings.removeFileProtocole(mMrl);
-        if (!TextUtils.isEmpty(mrl)) {
-            if (this instanceof FileBrowserFragment && mrl.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
-                mrl = getString(R.string.internal_memory)+mrl.substring(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY.length());
-            mrl = Uri.decode(mrl).replaceAll("://", " ").replaceAll("/", " > ");
-        }
+
         return mCurrentMedia != null ? mrl : null;
     }
 
@@ -421,7 +417,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected void setContextMenu(MenuInflater inflater, Menu menu, int position) {
         MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
         int type = mw.getType();
-        boolean canWrite = this instanceof FileBrowserFragment && FileUtils.canWrite(mw.getUri().getPath());
+        boolean canWrite = FileUtils.canWrite(mw.getUri().getPath());
         if (type == MediaWrapper.TYPE_DIR) {
             boolean isEmpty = mFoldersContentLists.get(position) == null || mFoldersContentLists.get(position).isEmpty();
                 inflater.inflate(R.menu.directory_view_dir, menu);
@@ -561,7 +557,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     protected void parseSubDirectories() {
         if (mCurrentParsedPosition == -1 ||
-                mAdapter.isEmpty() || this instanceof FilePickerFragment)
+                mAdapter.isEmpty())
             return;
         mFoldersContentLists.clear();
         if (mMediaBrowser == null)
