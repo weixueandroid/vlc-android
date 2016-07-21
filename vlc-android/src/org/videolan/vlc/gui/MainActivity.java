@@ -72,7 +72,6 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.extensions.ExtensionListing;
 import org.videolan.vlc.extensions.ExtensionManagerService;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
-import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
@@ -459,9 +458,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         if (frag != null)
             return frag;
         switch (id) {
-            case R.id.nav_audio:
-                return new AudioBrowserFragment();
-
 
             case R.id.nav_mrl:
                 return new MRLPanelFragment();
@@ -583,7 +579,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
         if (current instanceof IHistory)
             menu.findItem(R.id.ml_menu_clean).setVisible(!((IHistory) current).isEmpty());
-        boolean showLast = current instanceof AudioBrowserFragment || current instanceof VideoGridFragment;
+        boolean showLast = current instanceof VideoGridFragment;
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(showLast);
         return true;
     }
@@ -624,9 +620,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 break;
             // Restore last playlist
             case R.id.ml_menu_last_playlist:
-                boolean audio = current instanceof AudioBrowserFragment;
-                    Intent i = new Intent(audio ? PlaybackService.ACTION_REMOTE_LAST_PLAYLIST :
-                           PlaybackService.ACTION_REMOTE_LAST_VIDEO_PLAYLIST);
+
+                    Intent i = new Intent(PlaybackService.ACTION_REMOTE_LAST_VIDEO_PLAYLIST);
                     sendBroadcast(i);
                 break;
             case android.R.id.home:
@@ -892,8 +887,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
             case R.id.nav_settings:
                 return ID_PREFERENCES;
-            case R.id.nav_audio:
-                return ID_AUDIO;
 
             case R.id.nav_mrl:
                 return ID_MRL;
