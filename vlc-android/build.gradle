@@ -225,21 +225,9 @@ def hostName() {
 }
 
 def revision() {
-    def code = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'rev-parse', '--short', 'HEAD'
-        standardOutput = code
-    }
-    return code.toString()
+    return "1";
 }
 
 def vlcRevision() {
-    def code = new ByteArrayOutputStream()
-    def vlc = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'rev-parse', '--short', 'HEAD'
-        workingDir '../vlc'
-        standardOutput = vlc
-    }
-    return vlc.toString()
+   return "1";
 }
