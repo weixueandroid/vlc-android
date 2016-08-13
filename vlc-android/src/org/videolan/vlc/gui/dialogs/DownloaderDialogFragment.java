@@ -79,9 +79,8 @@ public class DownloaderDialogFragment extends DialogFragment implements View.OnC
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.download_cancel:
-                //TODO
+        int i = v.getId();
+        if (i == R.id.download_cancel) {//TODO
         }
     }
 }

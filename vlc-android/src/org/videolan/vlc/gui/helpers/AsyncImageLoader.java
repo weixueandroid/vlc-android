@@ -123,8 +123,8 @@ public class AsyncImageLoader {
      * Custom bindings to trigger image (dwon)loading
      */
 
-    @BindingAdapter({"bind:imageUri", "bind:binding"})
-    public static void downloadIcon(final View v, final Uri imageUri, final ViewDataBinding vdb) {
+    @BindingAdapter({"imageUri", "binding"})
+    public static void ownloadIcon(final View v, final Uri imageUri, final ViewDataBinding vdb) {
         AsyncImageLoader.LoadImage(new Callbacks() {
             @Override
             public Bitmap getImage() {
@@ -140,7 +140,7 @@ public class AsyncImageLoader {
     }
 
 
-    @BindingAdapter({"bind:mediaWithArt"})
+    @BindingAdapter({"mediaWithArt"})
     public static void downloadIcon(View v, MediaWrapper mw) {
         if (mw == null)
             return;
@@ -153,7 +153,7 @@ public class AsyncImageLoader {
 
     }
 
-    @BindingAdapter({"bind:media"})
+    @BindingAdapter({"media"})
     public static void loadPicture(ImageView v, MediaWrapper mw) {
         ViewDataBinding vdb = null;
         if (v.getTag() instanceof ViewDataBinding)
@@ -161,7 +161,7 @@ public class AsyncImageLoader {
         loadPicture(v, mw, vdb);
     }
 
-    @BindingAdapter({"bind:item"})
+    @BindingAdapter({"item"})
     public static void loadPicture(final ImageView v, final AudioBrowserListAdapter.ListItem item) {
         final Object tag = v.getTag();
         if (tag == null || !(tag instanceof ViewDataBinding))
@@ -189,7 +189,7 @@ public class AsyncImageLoader {
         }, v);
     }
 
-    @BindingAdapter({"bind:media", "bind:binding"})
+    @BindingAdapter({"media", "binding"})
     public static void loadPicture(ImageView v, MediaWrapper mw, ViewDataBinding vdb) {
         final Bitmap bitmap = mw.getType() == MediaWrapper.TYPE_VIDEO ?
                 BitmapUtil.getPictureFromCache(mw) :

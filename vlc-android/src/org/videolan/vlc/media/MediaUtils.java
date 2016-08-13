@@ -118,27 +118,27 @@ public class MediaUtils {
         });
     }
 
-    public static void openStream(final Context context, final String uri){
-        if (uri == null)
+    public static void openStream(final Context context, final String path){
+        if (path == null)
             return;
         new DialogCallback(context, new DialogCallback.Runnable() {
             @Override
             public void run(PlaybackService service) {
-                service.loadLocation(uri);
+                service.loadLocation(path);
             }
         });
     }
 
-    public static void openStream(final Context context, final String uri, final String title){
-        if (uri == null)
+    public static void openStream(final Context context, final String path, final String videoName){
+        if (path == null)
             return;
         new DialogCallback(context, new DialogCallback.Runnable() {
             @Override
             public void run(PlaybackService service) {
-                if(TextUtils.isEmpty(title)) {
-                    service.loadLocation(uri);
+                if(TextUtils.isEmpty(videoName)) {
+                    service.loadLocation(path);
                 } else {
-                    service.loadLocation(uri, title);
+                    service.loadLocation(path, videoName);
                 }
             }
         });
@@ -213,15 +213,14 @@ public class MediaUtils {
         if (ctx != null)
             return ctx.getResources().getString(id);
         else {
-            switch (id) {
-                case R.string.unknown_artist:
-                    return "Unknown Artist";
-                case R.string.unknown_album:
-                    return "Unknown Album";
-                case R.string.unknown_genre:
-                    return "Unknown Genre";
-                default:
-                    return "";
+            if (id == R.string.unknown_artist) {
+                return "Unknown Artist";
+            } else if (id == R.string.unknown_album) {
+                return "Unknown Album";
+            } else if (id == R.string.unknown_genre) {
+                return "Unknown Genre";
+            } else {
+                return "";
             }
         }
     }

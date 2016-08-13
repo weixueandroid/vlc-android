@@ -265,68 +265,68 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         final MediaWrapper media = mVideoAdapter.getItem(position);
         if (media == null)
             return false;
-        switch (menu.getItemId()){
-            case R.id.video_list_play_from_start:
-                playVideo(media, true);
-                return true;
-            case R.id.video_list_play_audio:
-                playAudio(media);
-                return true;
-            case R.id.video_list_play_all:
-                ArrayList<MediaWrapper> playList = new ArrayList<>();
-                ArrayList<MediaWrapper> videos = mVideoAdapter.getAll();
-                MediaWrapper mw;
-                int offset = 0;
-                for (int i = 0; i < videos.size(); ++i) {
-                    mw = videos.get(i);
-                    if (mw instanceof MediaGroup) {
-                        for (MediaWrapper item : ((MediaGroup) mw).getAll())
-                            playList.add(item);
-                        if (i < position)
-                            offset += ((MediaGroup)mw).size()-1;
-                    } else
-                        playList.add(mw);
-                }
-                MediaUtils.openList(getActivity(), playList, position+offset);
-                return true;
-            case R.id.video_list_info:
-                Activity activity = getActivity();
-                if (activity instanceof MainActivity)
-                    ((MainActivity)activity).showSecondaryFragment(SecondaryActivity.MEDIA_INFO, media.getLocation());
-                else {
-                    Intent i = new Intent(activity, SecondaryActivity.class);
-                    i.putExtra("fragment", "mediaInfo");
-                    i.putExtra("param", media.getLocation());
-                    startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY);
-                }
-                return true;
-            case R.id.video_list_delete:
-                mVideoAdapter.remove(position);
-                if (getView() != null)
-                    UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
-                        @Override
-                        public void run() {
-                            deleteMedia(media);
-                        }
-                    }, new Runnable() {
-                        @Override
-                        public void run() {
-                            mVideoAdapter.add(position, media);
-                        }
-                    });
-                return true;
-            case R.id.video_group_play:
-                MediaUtils.openList(getActivity(), ((MediaGroup) media).getAll(), 0);
-                return true;
-            case R.id.video_list_append:
-                if (media instanceof MediaGroup)
-                    mService.append(((MediaGroup)media).getAll());
-                else
-                    mService.append(media);
-                return true;
-            case R.id.video_download_subtitles:
-                MediaUtils.getSubs(getActivity(), media);
-                return true;
+        int i1 = menu.getItemId();
+        if (i1 == R.id.video_list_play_from_start) {
+            playVideo(media, true);
+            return true;
+        } else if (i1 == R.id.video_list_play_audio) {
+            playAudio(media);
+            return true;
+        } else if (i1 == R.id.video_list_play_all) {
+            ArrayList<MediaWrapper> playList = new ArrayList<>();
+            ArrayList<MediaWrapper> videos = mVideoAdapter.getAll();
+            MediaWrapper mw;
+            int offset = 0;
+            for (int i = 0; i < videos.size(); ++i) {
+                mw = videos.get(i);
+                if (mw instanceof MediaGroup) {
+                    for (MediaWrapper item : ((MediaGroup) mw).getAll())
+                        playList.add(item);
+                    if (i < position)
+                        offset += ((MediaGroup) mw).size() - 1;
+                } else
+                    playList.add(mw);
+            }
+            MediaUtils.openList(getActivity(), playList, position + offset);
+            return true;
+        } else if (i1 == R.id.video_list_info) {
+            Activity activity = getActivity();
+            if (activity instanceof MainActivity)
+                ((MainActivity) activity).showSecondaryFragment(SecondaryActivity.MEDIA_INFO, media.getLocation());
+            else {
+                Intent i = new Intent(activity, SecondaryActivity.class);
+                i.putExtra("fragment", "mediaInfo");
+                i.putExtra("param", media.getLocation());
+                startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY);
+            }
+            return true;
+        } else if (i1 == R.id.video_list_delete) {
+            mVideoAdapter.remove(position);
+            if (getView() != null)
+                UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
+                    @Override
+                    public void run() {
+                        deleteMedia(media);
+                    }
+                }, new Runnable() {
+                    @Override
+                    public void run() {
+                        mVideoAdapter.add(position, media);
+                    }
+                });
+            return true;
+        } else if (i1 == R.id.video_group_play) {
+            MediaUtils.openList(getActivity(), ((MediaGroup) media).getAll(), 0);
+            return true;
+        } else if (i1 == R.id.video_list_append) {
+            if (media instanceof MediaGroup)
+                mService.append(((MediaGroup) media).getAll());
+            else
+                mService.append(media);
+            return true;
+        } else if (i1 == R.id.video_download_subtitles) {
+            MediaUtils.getSubs(getActivity(), media);
+            return true;
         }
         return false;
     }

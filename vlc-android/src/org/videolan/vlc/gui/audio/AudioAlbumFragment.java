@@ -270,13 +270,11 @@ public class AudioAlbumFragment extends PlaybackServiceFragment implements Adapt
     @Override
     public void onClick(View v) {
         final int id = v.getId();
-        switch (id){
-            case R.id.album_play:
-                if (mService != null)
-                    mService.load(mMediaList, 0);
-                break;
-            default:
-                break;
+        if (id == R.id.album_play) {
+            if (mService != null)
+                mService.load(mMediaList, 0);
+
+        } else {
         }
     }
 }

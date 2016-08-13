@@ -25,7 +25,7 @@
         android:layout_height="40dp"
         android:layout_margin="5dip"
         android:clickable="true"
-        android:onClick="@{holder.onClick}" >
+        android:onClick="@{holder::onClick}" >
         <TextView
             android:id="@+id/audio_item_title"
             android:layout_width="match_parent"
@@ -76,7 +76,7 @@
             android:layout_alignTop="@id/audio_item_title"
             android:scaleType="center"
             android:background="@drawable/ic_more"
-            android:onClick="@{holder.onMoreClick}"
+            android:onClick="@{holder::onMoreClick}"
             android:clickable="true" />
     </RelativeLayout>
 </layout>

@@ -303,22 +303,22 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     }
 
     public void onClick(View v){
-        switch (v.getId()){
-            case R.id.button_play:
-                togglePlayPause();
-                break;
-            case R.id.button_next:
-                goNext();
-                break;
-            case R.id.button_previous:
-                goPrevious();
-                break;
-            case R.id.button_repeat:
-                updateRepeatMode();
-                break;
-            case R.id.button_shuffle:
-                setShuffleMode(!mShuffling);
-                break;
+        int i = v.getId();
+        if (i == R.id.button_play) {
+            togglePlayPause();
+
+        } else if (i == R.id.button_next) {
+            goNext();
+
+        } else if (i == R.id.button_previous) {
+            goPrevious();
+
+        } else if (i == R.id.button_repeat) {
+            updateRepeatMode();
+
+        } else if (i == R.id.button_shuffle) {
+            setShuffleMode(!mShuffling);
+
         }
     }
 

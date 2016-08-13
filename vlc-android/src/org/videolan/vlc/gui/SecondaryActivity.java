@@ -117,20 +117,19 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         // Handle item selection
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.ml_menu_sortby_name:
-            case R.id.ml_menu_sortby_length:
-                ((ISortable) mFragment).sortBy(item.getItemId() == R.id.ml_menu_sortby_name
-                ? VideoListAdapter.SORT_BY_TITLE
-                : VideoListAdapter.SORT_BY_LENGTH);
-                break;
-            case R.id.ml_menu_refresh:
-                if (!MediaLibrary.getInstance().isWorking())
-                    MediaLibrary.getInstance().scanMediaItems(true);
-                break;
+        int i = item.getItemId();
+        if (i == android.R.id.home) {
+            finish();
+            return true;
+        } else if (i == R.id.ml_menu_sortby_name || i == R.id.ml_menu_sortby_length) {
+            ((ISortable) mFragment).sortBy(item.getItemId() == R.id.ml_menu_sortby_name
+                    ? VideoListAdapter.SORT_BY_TITLE
+                    : VideoListAdapter.SORT_BY_LENGTH);
+
+        } else if (i == R.id.ml_menu_refresh) {
+            if (!MediaLibrary.getInstance().isWorking())
+                MediaLibrary.getInstance().scanMediaItems(true);
+
         }
         return super.onOptionsItemSelected(item);
     }

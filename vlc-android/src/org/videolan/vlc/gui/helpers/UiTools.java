@@ -141,7 +141,7 @@ public class UiTools {
      * @param alignMode Align mode as read from preferences
      * @param t Reference to the textview
      */
-    @BindingAdapter({"bind:alignMode"})
+    @BindingAdapter({"alignMode"})
     public static void setAlignModeByPref(TextView t, int alignMode) {
         switch (alignMode) {
             case 0:
@@ -187,11 +187,11 @@ public class UiTools {
         TextView link = (TextView) v.findViewById(R.id.main_link);
         link.setText(Html.fromHtml(VLCApplication.getAppResources().getString(R.string.about_link)));
 
-        String revision = VLCApplication.getAppResources().getString(R.string.build_revision)+" VLC: "+VLCApplication.getAppResources().getString(R.string.build_vlc_revision);
+       /* String revision = VLCApplication.getAppResources().getString(R.string.build_revision)+" VLC: "+VLCApplication.getAppResources().getString(R.string.build_vlc_revision);
         String builddate = VLCApplication.getAppResources().getString(R.string.build_time);
-        String builder = VLCApplication.getAppResources().getString(R.string.build_host);
+        String builder = VLCApplication.getAppResources().getString(R.string.build_host);*/
 
-        TextView compiled = (TextView) v.findViewById(R.id.main_compiled);
+       /* TextView compiled = (TextView) v.findViewById(R.id.main_compiled);
         compiled.setText(builder + " (" + builddate + ")");
         TextView textview_rev = (TextView) v.findViewById(R.id.main_revision);
         textview_rev.setText(VLCApplication.getAppResources().getString(R.string.revision) + " " + revision + " (" + builddate + ") " + BuildConfig.FLAVOR_abi);
@@ -207,7 +207,7 @@ public class UiTools {
                 anim.addAnimation(rotate);
                 logo.startAnimation(anim);
             }
-        });
+        });*/
     }
 
     public static void setKeyboardVisibility(final View v, final boolean show) {

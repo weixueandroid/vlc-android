@@ -1,156 +1,159 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
-    flavorDimensions "target", "abi"
+   // flavorDimensions "target", "abi"
 
     lintOptions {
         abortOnError false
         disable 'MissingTranslation', 'ExtraTranslation'
     }
 
-    task luaPlaylistCopy(type: Copy) {
-        from '../vlc/share/lua/playlist'
-        into 'assets/lua/playlist'
-        exclude '**/*.txt'
-    }
-
-    task luaMetaCopy(type: Copy) {
-        from '../vlc/share/lua/meta'
-        into 'assets/lua/meta'
-        exclude '**/*.txt'
-    }
+//    task luaPlaylistCopy(type: Copy) {
+//        from '../vlc/share/lua/playlist'
+//        into 'assets/lua/playlist'
+//        exclude '**/*.txt'
+//    }
+//
+//    task luaMetaCopy(type: Copy) {
+//        from '../vlc/share/lua/meta'
+//        into 'assets/lua/meta'
+//        exclude '**/*.txt'
+//    }
 
     dataBinding {
         enabled = true
     }
 
     defaultConfig {
-        applicationId "org.videolan.vlc"
+        //applicationId "org.videolan.vlc"
 
-        resValue "string", "build_time", buildTime()
-        resValue "string", "build_host", hostName()
-        resValue "string", "build_revision", revision()
-        resValue "string", "build_vlc_revision", vlcRevision()
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+//        resValue "string", "build_time", buildTime()
+//        resValue "string", "build_host", hostName()
+//        resValue "string", "build_revision", revision()
+//        resValue "string", "build_vlc_revision", vlcRevision()
 
-        tasks.whenTaskAdded { task ->
-            if (task.name.startsWith('assemble')) {
-                task.dependsOn luaPlaylistCopy
-                task.dependsOn luaMetaCopy
-            }
-        }
+//        tasks.whenTaskAdded { task ->
+//            if (task.name.startsWith('assemble')) {
+//                task.dependsOn luaPlaylistCopy
+//                task.dependsOn luaMetaCopy
+//            }
+//        }
 
         //Set the build ABI according to build types only if not launched from compile.sh
-        if (System.getenv('PASSWORD_KEYSTORE') == null)
-            tasks.whenTaskAdded { task ->
-                if (task.name.startsWith('assemble')) {
-                    /*if (task.name.endsWith('ARMv5Debug'))
-                        task.dependsOn(":libvlc:buildDebugARMv5")
-                    else */if (task.name.endsWith('ARMv6fpuDebug'))
-                        task.dependsOn(":libvlc:buildDebugARMv6")
-                    else if (task.name.endsWith('ARMv6nofpuDebug'))
-                        task.dependsOn(":libvlc:buildDebugARMv6_nofpu")
-                    else if (task.name.endsWith('ARMv7Debug'))
-                        task.dependsOn(":libvlc:buildDebugARMv7")
-                    else if (task.name.endsWith('ARMv8Debug'))
-                        task.dependsOn(":libvlc:buildDebugARM64")
-                    else if (task.name.endsWith('X86Debug'))
-                        task.dependsOn(":libvlc:buildDebugx86")
-                    else if (task.name.endsWith('X86_64Debug'))
-                        task.dependsOn(":libvlc:buildDebugx86_64")
-                    else if (task.name.endsWith('MIPSDebug'))
-                        task.dependsOn(":libvlc:buildDebugMIPS")
-                    else if (task.name.endsWith('MIPS64Debug'))
-                        task.dependsOn(":libvlc:buildDebugMIPS64")
-                }
-            }
+//        if (System.getenv('PASSWORD_KEYSTORE') == null)
+//            tasks.whenTaskAdded { task ->
+//                if (task.name.startsWith('assemble')) {
+//                    /*if (task.name.endsWith('ARMv5Debug'))
+//                        task.dependsOn(":libvlc:buildDebugARMv5")
+//                    else */if (task.name.endsWith('ARMv6fpuDebug'))
+//                        task.dependsOn(":libvlc:buildDebugARMv6")
+//                    else if (task.name.endsWith('ARMv6nofpuDebug'))
+//                        task.dependsOn(":libvlc:buildDebugARMv6_nofpu")
+//                    else if (task.name.endsWith('ARMv7Debug'))
+//                        task.dependsOn(":libvlc:buildDebugARMv7")
+//                    else if (task.name.endsWith('ARMv8Debug'))
+//                        task.dependsOn(":libvlc:buildDebugARM64")
+//                    else if (task.name.endsWith('X86Debug'))
+//                        task.dependsOn(":libvlc:buildDebugx86")
+//                    else if (task.name.endsWith('X86_64Debug'))
+//                        task.dependsOn(":libvlc:buildDebugx86_64")
+//                    else if (task.name.endsWith('MIPSDebug'))
+//                        task.dependsOn(":libvlc:buildDebugMIPS")
+//                    else if (task.name.endsWith('MIPS64Debug'))
+//                        task.dependsOn(":libvlc:buildDebugMIPS64")
+//                }
+//            }
     }
 
-    signingConfigs {
-
-        release {
-            /*
-            To set this properties, create file gradle.properties with these 3 props.
-            e.g.
-            keyStoreFile=/home/<username>/.android/debug.keystore
-            storealias=androiddebugkey
-            storepwd=android
-             */
-            storeFile file(keyStoreFile)
-            keyAlias storealias
-            if (System.getenv('PASSWORD_KEYSTORE') != null && !System.getenv('PASSWORD_KEYSTORE').isEmpty()){
-                storePassword = System.getenv('PASSWORD_KEYSTORE')
-                keyPassword = System.getenv('PASSWORD_KEYSTORE')
-            } else {
-                storePassword storepwd
-                keyPassword storepwd
-            }
-        }
-    }
+//    signingConfigs {
+//
+//        release {
+//            /*
+//            To set this properties, create file gradle.properties with these 3 props.
+//            e.g.
+//            keyStoreFile=/home/<username>/.android/debug.keystore
+//            storealias=androiddebugkey
+//            storepwd=android
+//             */
+//            storeFile file(keyStoreFile)
+//            keyAlias storealias
+//            if (System.getenv('PASSWORD_KEYSTORE') != null && !System.getenv('PASSWORD_KEYSTORE').isEmpty()){
+//                storePassword = System.getenv('PASSWORD_KEYSTORE')
+//                keyPassword = System.getenv('PASSWORD_KEYSTORE')
+//            } else {
+//                storePassword storepwd
+//                keyPassword storepwd
+//            }
+//        }
+//    }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
-            minifyEnabled true
+//            signingConfig signingConfigs.release
+            minifyEnabled false
             shrinkResources false
             proguardFile 'proguard.cfg'
         }
         debug {
-            applicationIdSuffix ".debug"
             jniDebuggable true
         }
     }
     productFlavors {
-        vanilla {
-            dimension "target"
-            versionCode = 1
-        }
-        chrome {
-            minSdkVersion 19
-            dimension "target"
-            versionCode = 2
-        }
-        ARMv5 {
-            dimension "abi"
-            versionCode = 1
-        }
-        ARMv6nofpu {
-            dimension "abi"
-            versionCode = 2
-        }
-        ARMv6fpu {
-            dimension "abi"
-            versionCode = 3
-        }
-        ARMv7 {
-            dimension "abi"
-            versionCode = 4
-        }
-        x86 {
-            dimension "abi"
-            versionCode = 5
-        }
-        MIPS {
-            dimension "abi"
-            versionCode = 6
-        }
-        ARMv8 {
-            dimension "abi"
-            versionCode = 7
-        }
-        x86_64 {
-            dimension "abi"
-            versionCode = 8
-        }
-        MIPS64 {
-            dimension "abi"
-            versionCode = 9
-        }
+//        vanilla {
+//            dimension "target"
+//            versionCode = 1
+//        }
+//        chrome {
+//            minSdkVersion 19
+//            dimension "target"
+//            versionCode = 2
+//        }
+//        ARMv5 {
+//            dimension "abi"
+//            versionCode = 1
+//        }
+//        ARMv6nofpu {
+//            dimension "abi"
+//            versionCode = 2
+//        }
+//        ARMv6fpu {
+//            dimension "abi"
+//            versionCode = 3
+//        }
+//        ARMv7 {
+//            dimension "abi"
+//            versionCode = 4
+//        }
+//        x86 {
+//            dimension "abi"
+//            versionCode = 5
+//        }
+//        MIPS {
+//            dimension "abi"
+//            versionCode = 6
+//        }
+//        ARMv8 {
+//            dimension "abi"
+//            versionCode = 7
+//        }
+//        x86_64 {
+//            dimension "abi"
+//            versionCode = 8
+//        }
+//        MIPS64 {
+//            dimension "abi"
+//            versionCode = 9
+//        }
     }
 
-    // make per-variant version code
+    /*// make per-variant version code
     applicationVariants.all { variant ->
         def manifestParser = new com.android.builder.core.DefaultManifestParser()
         // get the version code of each flavor
@@ -177,9 +180,11 @@ android {
                 manifestOutFile.write(newFileContents, 'UTF-8')
             }
         }
-    }
+    }*/
 
     sourceSets.main {
+        jni.srcDirs = [] // Prevent gradle from building native code with ndk; we have our own Makefile for it.
+        jniLibs.srcDir 'jni/libs' // Where generated .so files are placed.
         manifest.srcFile 'AndroidManifest.xml'
         java.srcDirs = ['src']
         resources.srcDirs = ['src']
@@ -191,19 +196,19 @@ android {
     sourceSets.release {
         manifest.srcFile 'flavors/release/AndroidManifest.xml'
     }
-    sourceSets.test {
-        java.srcDirs = ['test']
-    }
-    sourceSets.chrome {
+//    sourceSets.test {
+//        java.srcDirs = ['test']
+//    }
+   /* sourceSets.chrome {
         manifest.srcFile 'flavors/chrome/AndroidManifest.xml'
         res.srcDirs = ['flavors/chrome/res']
-    }
+    }*/
 }
 
 dependencies {
-    compile project(':libvlc')
-    compile project(':api')
-    compile project(':axmlrpc')
+//    compile project(':libvlc')
+//    compile project(':api')
+//    compile project(':axmlrpc')
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
@@ -214,20 +219,4 @@ dependencies {
     compile 'com.android.support:leanback-v17:23.1.1'
     compile 'com.android.support:preference-leanback-v17:23.1.1'
     testCompile 'junit:junit:4.12'
-}
-
-def buildTime() {
-    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
-}
-
-def hostName() {
-    return System.getProperty("user.name") + "@" + InetAddress.localHost.hostName
-}
-
-def revision() {
-    return "1";
-}
-
-def vlcRevision() {
-   return "1";
 }

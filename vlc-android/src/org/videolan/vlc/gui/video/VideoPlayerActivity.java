@@ -2207,81 +2207,80 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.player_overlay_play:
-                doPlayPause();
-                break;
-            case R.id.playlist_toggle:
-                togglePlaylist();
-                break;
-            case R.id.playlist_next:
-                mService.next();
-                break;
-            case R.id.playlist_previous:
-                mService.previous();
-                break;
-            case R.id.player_overlay_forward:
-                seekDelta(10000);
-                break;
-            case R.id.player_overlay_rewind:
-                seekDelta(-10000);
-                break;
-            case R.id.lock_overlay_button:
-                if (mIsLocked)
-                    unlockScreen();
-                else
-                    lockScreen();
-                break;
-            case R.id.player_overlay_size:
-                resizeVideo();
-                break;
-            case R.id.player_overlay_navmenu:
-                showNavMenu();
-                break;
-            case R.id.player_overlay_length:
-            case R.id.player_overlay_time:
-                mDisplayRemainingTime = !mDisplayRemainingTime;
-                showOverlay();
-                break;
-            case R.id.player_delay_minus:
-                if (mPlaybackSetting == DelayState.AUDIO)
-                    delayAudio(-50000);
-                else if (mPlaybackSetting == DelayState.SUBS)
-                    delaySubs(-50000);
-                else if (mPlaybackSetting == DelayState.SPEED)
-                    changeSpeed(-0.05f);
-                break;
-            case R.id.player_delay_plus:
-                if (mPlaybackSetting == DelayState.AUDIO)
-                    delayAudio(50000);
-                else if (mPlaybackSetting == DelayState.SUBS)
-                    delaySubs(50000);
-                else if (mPlaybackSetting == DelayState.SPEED)
-                    changeSpeed(0.05f);
-                break;
-            case R.id.player_overlay_adv_function:
-                showAdvancedOptions();
-                break;
-            case R.id.player_overlay_tracks:
-                onAudioSubClick(v);
+        int i = v.getId();
+        if (i == R.id.player_overlay_play) {
+            doPlayPause();
+
+        } else if (i == R.id.playlist_toggle) {
+            togglePlaylist();
+
+        } else if (i == R.id.playlist_next) {
+            mService.next();
+
+        } else if (i == R.id.playlist_previous) {
+            mService.previous();
+
+        } else if (i == R.id.player_overlay_forward) {
+            seekDelta(10000);
+
+        } else if (i == R.id.player_overlay_rewind) {
+            seekDelta(-10000);
+
+        } else if (i == R.id.lock_overlay_button) {
+            if (mIsLocked)
+                unlockScreen();
+            else
+                lockScreen();
+
+        } else if (i == R.id.player_overlay_size) {
+            resizeVideo();
+
+        } else if (i == R.id.player_overlay_navmenu) {
+            showNavMenu();
+
+        } else if (i == R.id.player_overlay_length || i == R.id.player_overlay_time) {
+            mDisplayRemainingTime = !mDisplayRemainingTime;
+            showOverlay();
+
+        } else if (i == R.id.player_delay_minus) {
+            if (mPlaybackSetting == DelayState.AUDIO)
+                delayAudio(-50000);
+            else if (mPlaybackSetting == DelayState.SUBS)
+                delaySubs(-50000);
+            else if (mPlaybackSetting == DelayState.SPEED)
+                changeSpeed(-0.05f);
+
+        } else if (i == R.id.player_delay_plus) {
+            if (mPlaybackSetting == DelayState.AUDIO)
+                delayAudio(50000);
+            else if (mPlaybackSetting == DelayState.SUBS)
+                delaySubs(50000);
+            else if (mPlaybackSetting == DelayState.SPEED)
+                changeSpeed(0.05f);
+
+        } else if (i == R.id.player_overlay_adv_function) {
+            showAdvancedOptions();
+
+        } else if (i == R.id.player_overlay_tracks) {
+            onAudioSubClick(v);
         }
     }
 
     public boolean onLongClick(View v) {
-        switch (v.getId()){
-            case R.id.player_overlay_play:
-                if (mService == null)
-                    return false;
-                if (mService.getRepeatType() == PlaybackService.REPEAT_ONE) {
-                    showInfo(getString(R.string.repeat), 1000);
-                    mService.setRepeatType(PlaybackService.REPEAT_NONE);
-                } else {
-                    mService.setRepeatType(PlaybackService.REPEAT_ONE);
-                    showInfo(getString(R.string.repeat_single), 1000);
-                }
-                return true;
-            default:
+        int i = v.getId();
+        if (i == R.id.player_overlay_play) {
+            if (mService == null)
                 return false;
+            if (mService.getRepeatType() == PlaybackService.REPEAT_ONE) {
+                showInfo(getString(R.string.repeat), 1000);
+                mService.setRepeatType(PlaybackService.REPEAT_NONE);
+            } else {
+                mService.setRepeatType(PlaybackService.REPEAT_ONE);
+                showInfo(getString(R.string.repeat_single), 1000);
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 

@@ -365,9 +365,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fab_add_custom_dir:
-                playAll(null);
+        int i = v.getId();
+        if (i == R.id.fab_add_custom_dir) {
+            playAll(null);
         }
     }
 
@@ -465,64 +465,62 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         if (! (mAdapter.getItem(position) instanceof MediaWrapper))
             return super.onContextItemSelected(item);
         final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
-        switch (id){
-            case R.id.directory_view_play_all:
-                mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                playAll(mw);
-                return true;
-            case R.id.directory_view_append: {
-                if (mService != null)
-                    mService.append(mw);
-                return true;
+        if (id == R.id.directory_view_play_all) {
+            mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+            playAll(mw);
+            return true;
+        } else if (id == R.id.directory_view_append) {
+            if (mService != null)
+                mService.append(mw);
+            return true;
+        } else if (id == R.id.directory_view_delete) {
+            mAdapter.removeItem(position, true);
+            UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
+                @Override
+                public void run() {
+                    deleteMedia(mw);
+                }
+            }, new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.addItem(mw, true, position);
+                }
+            });
+            return true;
+        } else if (id == R.id.directory_view_info) {
+            Intent i = new Intent(getActivity(), SecondaryActivity.class);
+            i.putExtra("fragment", "mediaInfo");
+            i.putExtra("param", mw.getUri().toString());
+            getActivity().startActivityForResult(i, MainActivity.ACTIVITY_RESULT_SECONDARY);
+            return true;
+        } else if (id == R.id.directory_view_play_audio) {
+            if (mService != null) {
+                mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+                mService.load(mw);
             }
-            case R.id.directory_view_delete:
-                mAdapter.removeItem(position, true);
-                UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
-                    @Override
-                    public void run() {
-                        deleteMedia(mw);
-                    }
-                }, new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.addItem(mw, true, position);
-                    }
-                });
-                return true;
-            case  R.id.directory_view_info:
-                Intent i = new Intent(getActivity(), SecondaryActivity.class);
-                i.putExtra("fragment", "mediaInfo");
-                i.putExtra("param", mw.getUri().toString());
-                getActivity().startActivityForResult(i, MainActivity.ACTIVITY_RESULT_SECONDARY);
-                return true;
-            case R.id.directory_view_play_audio:
-                if (mService != null) {
-                    mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                    mService.load(mw);
-                }
-                return true;
-            case R.id.directory_view_play_folder:
-                ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
-                boolean videoPlaylist = AndroidUtil.isHoneycombOrLater();
-                for (MediaWrapper mediaItem : mFoldersContentLists.get(position)){
-                    if (mediaItem.getType() == MediaWrapper.TYPE_AUDIO || (videoPlaylist && mediaItem.getType() == MediaWrapper.TYPE_VIDEO))
-                        mediaList.add(mediaItem);
-                }
-                MediaUtils.openList(getActivity(), mediaList, 0);
-                return true;
-            case R.id.directory_view_add_playlist:
-                ArrayList<MediaWrapper> medias = new ArrayList<>();
-                medias.add(mw);
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
-                Bundle args = new Bundle();
-                args.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, medias);
-                savePlaylistDialog.setArguments(args);
-                savePlaylistDialog.show(fm, "fragment_add_to_playlist");
-                return true;
-            case R.id.directory_subtitles_download:
-                MediaUtils.getSubs(getActivity(), mw);
-                return true;
+            return true;
+        } else if (id == R.id.directory_view_play_folder) {
+            ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
+            boolean videoPlaylist = AndroidUtil.isHoneycombOrLater();
+            for (MediaWrapper mediaItem : mFoldersContentLists.get(position)) {
+                if (mediaItem.getType() == MediaWrapper.TYPE_AUDIO || (videoPlaylist && mediaItem.getType() == MediaWrapper.TYPE_VIDEO))
+                    mediaList.add(mediaItem);
+            }
+            MediaUtils.openList(getActivity(), mediaList, 0);
+            return true;
+        } else if (id == R.id.directory_view_add_playlist) {
+            ArrayList<MediaWrapper> medias = new ArrayList<>();
+            medias.add(mw);
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
+            Bundle args = new Bundle();
+            args.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, medias);
+            savePlaylistDialog.setArguments(args);
+            savePlaylistDialog.show(fm, "fragment_add_to_playlist");
+            return true;
+        } else if (id == R.id.directory_subtitles_download) {
+            MediaUtils.getSubs(getActivity(), mw);
+            return true;
 //            case R.id.directory_view_hide_media:
 //                try {
 //                    if (new File(mw.getLocation()+"/.nomedia").createNewFile())
@@ -533,7 +531,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 //                if (new File(mw.getLocation()+"/.nomedia").delete())
 //                    updateLib();
 //                return true;
-
         }
         return false;
     }

@@ -202,27 +202,25 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     }
 
     protected boolean handleContextItemSelected(MenuItem item, final int position) {
-        switch (item.getItemId()) {
-            case R.id.extension_item_view_play_all:
-                List<VLCExtensionItem> items = mAdapter.getAll();
-                ArrayList<MediaWrapper> medias = new ArrayList<>(items.size());
-                for (VLCExtensionItem vlcItem : items) {
-                    medias.add(Utils.mediawrapperFromExtension(vlcItem));
-                }
-                MediaUtils.openList(getActivity(), medias, position);
-                return true;
-            case R.id.extension_item_view_append:
-                MediaUtils.appendMedia(getActivity(), Utils.mediawrapperFromExtension(mAdapter.getItem(position)));
-                return true;
-            case R.id.extension_item_view_play_audio:
-                MediaWrapper mw = Utils.mediawrapperFromExtension(mAdapter.getItem(position));
-                mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                MediaUtils.openMedia(getActivity(), mw);
-                return true;
-            case R.id.extension_item_download:
-                //TODO
-            default:return false;
-
+        int i = item.getItemId();
+        if (i == R.id.extension_item_view_play_all) {
+            List<VLCExtensionItem> items = mAdapter.getAll();
+            ArrayList<MediaWrapper> medias = new ArrayList<>(items.size());
+            for (VLCExtensionItem vlcItem : items) {
+                medias.add(Utils.mediawrapperFromExtension(vlcItem));
+            }
+            MediaUtils.openList(getActivity(), medias, position);
+            return true;
+        } else if (i == R.id.extension_item_view_append) {
+            MediaUtils.appendMedia(getActivity(), Utils.mediawrapperFromExtension(mAdapter.getItem(position)));
+            return true;
+        } else if (i == R.id.extension_item_view_play_audio) {
+            MediaWrapper mw = Utils.mediawrapperFromExtension(mAdapter.getItem(position));
+            mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+            MediaUtils.openMedia(getActivity(), mw);
+            return true;
+        } else {//TODO
+            return false;
         }
     }
 

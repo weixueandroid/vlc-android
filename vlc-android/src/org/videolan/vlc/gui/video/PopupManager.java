@@ -252,23 +252,23 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.video_play_pause:
-                if (mService.hasMedia()) {
-                    boolean isPLaying = mService.isPlaying();
-                    if (isPLaying)
-                        mService.pause();
-                    else
-                        mService.play();
-                }
-                break;
-            case R.id.popup_close:
-                mService.stop();
-                break;
-            case R.id.popup_expand:
-                mService.removePopup();
-                mService.switchToVideo();
-                break;
+        int i = v.getId();
+        if (i == R.id.video_play_pause) {
+            if (mService.hasMedia()) {
+                boolean isPLaying = mService.isPlaying();
+                if (isPLaying)
+                    mService.pause();
+                else
+                    mService.play();
+            }
+
+        } else if (i == R.id.popup_close) {
+            mService.stop();
+
+        } else if (i == R.id.popup_expand) {
+            mService.removePopup();
+            mService.switchToVideo();
+
         }
     }
 

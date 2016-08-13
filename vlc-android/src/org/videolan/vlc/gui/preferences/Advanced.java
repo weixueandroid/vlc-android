@@ -61,9 +61,9 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
+       /* if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
             findPreference("quit_app").setEnabled(false);
-        }
+        }*/
 
         // Audio output
         ListPreference aoutPref = (ListPreference) findPreference("aout");

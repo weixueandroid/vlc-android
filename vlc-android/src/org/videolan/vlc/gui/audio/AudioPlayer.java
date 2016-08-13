@@ -653,15 +653,15 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.playlist_search:
-                mPlaylistSearchButton.setVisibility(View.GONE);
-                mPlaylistSearchText.setVisibility(View.VISIBLE);
-                mPlaylistSearchText.getEditText().requestFocus();
-                InputMethodManager imm = (InputMethodManager) VLCApplication.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(mPlaylistSearchText.getEditText(), InputMethodManager.SHOW_IMPLICIT);
-                mHandler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS);
-                break;
+        int i = v.getId();
+        if (i == R.id.playlist_search) {
+            mPlaylistSearchButton.setVisibility(View.GONE);
+            mPlaylistSearchText.setVisibility(View.VISIBLE);
+            mPlaylistSearchText.getEditText().requestFocus();
+            InputMethodManager imm = (InputMethodManager) VLCApplication.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mPlaylistSearchText.getEditText(), InputMethodManager.SHOW_IMPLICIT);
+            mHandler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS);
+
         }
     }
 

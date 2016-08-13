@@ -239,9 +239,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
     private void setupNavigationView() {
         mNavigationView = (NavigationView) findViewById(R.id.navigation);
-        if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
+       /* if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
 
-        }
+        }*/
 
         //mNavigationView.getMenu().findItem(R.id.nav_history).setVisible(mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true));
 
@@ -457,12 +457,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         Fragment frag = getSupportFragmentManager().findFragmentByTag(getTag(id));
         if (frag != null)
             return frag;
-        switch (id) {
-
-            case R.id.nav_mrl:
-                return new MRLPanelFragment();
-            default:
-                return new VideoGridFragment();
+        if (id == R.id.nav_mrl) {
+            return new MRLPanelFragment();
+        } else {
+            return new VideoGridFragment();
         }
     }
 
@@ -595,48 +593,43 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
 
         // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.ml_menu_sortby_name:
-            case R.id.ml_menu_sortby_length:
-            case R.id.ml_menu_sortby_date:
-                if (current == null)
-                    break;
-                if (current instanceof ISortable) {
-                    int sortBy = VideoListAdapter.SORT_BY_TITLE;
-                    if (item.getItemId() == R.id.ml_menu_sortby_length)
-                        sortBy = VideoListAdapter.SORT_BY_LENGTH;
-                    else if(item.getItemId() == R.id.ml_menu_sortby_date)
-                        sortBy = VideoListAdapter.SORT_BY_DATE;
-                    ((ISortable) current).sortBy(sortBy);
-                    supportInvalidateOptionsMenu();
-                }
-                break;
-            case R.id.ml_menu_equalizer:
-                showSecondaryFragment(SecondaryActivity.EQUALIZER);
-                break;
-            // Refresh
-            case R.id.ml_menu_refresh:
-                forceRefresh(current);
-                break;
-            // Restore last playlist
-            case R.id.ml_menu_last_playlist:
+        int i1 = item.getItemId();
+        if (i1 == R.id.ml_menu_sortby_name || i1 == R.id.ml_menu_sortby_length || i1 == R.id.ml_menu_sortby_date) {
+            if (current == null)
+                return false;
+            if (current instanceof ISortable) {
+                int sortBy = VideoListAdapter.SORT_BY_TITLE;
+                if (item.getItemId() == R.id.ml_menu_sortby_length)
+                    sortBy = VideoListAdapter.SORT_BY_LENGTH;
+                else if (item.getItemId() == R.id.ml_menu_sortby_date)
+                    sortBy = VideoListAdapter.SORT_BY_DATE;
+                ((ISortable) current).sortBy(sortBy);
+                supportInvalidateOptionsMenu();
+            }
 
-                    Intent i = new Intent(PlaybackService.ACTION_REMOTE_LAST_VIDEO_PLAYLIST);
-                    sendBroadcast(i);
-                break;
-            case android.R.id.home:
-                // Slide down the audio player.
-                if (slideDownAudioPlayer())
-                    break;
+        } else if (i1 == R.id.ml_menu_equalizer) {
+            showSecondaryFragment(SecondaryActivity.EQUALIZER);
+
+            // Refresh
+        } else if (i1 == R.id.ml_menu_refresh) {
+            forceRefresh(current);
+
+            // Restore last playlist
+        } else if (i1 == R.id.ml_menu_last_playlist) {
+            Intent i = new Intent(PlaybackService.ACTION_REMOTE_LAST_VIDEO_PLAYLIST);
+            sendBroadcast(i);
+
+        } else if (i1 == android.R.id.home) {// Slide down the audio player.
+            if (slideDownAudioPlayer())
+                return false;
                 /* Toggle the sidebar */
-                if (mDrawerToggle.onOptionsItemSelected(item)) {
-                    return true;
-                }
-                break;
-            case R.id.ml_menu_clean:
-                if (current instanceof IHistory)
-                    ((IHistory)current).clearHistory();
-                break;
+            if (mDrawerToggle.onOptionsItemSelected(item)) {
+                return true;
+            }
+
+        } else if (i1 == R.id.ml_menu_clean) {
+            if (current instanceof IHistory)
+                ((IHistory) current).clearHistory();
 
         }
         mDrawerLayout.closeDrawer(mNavigationView);
@@ -843,26 +836,21 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             }
 
             String tag = getTag(id);
-            switch (id){
-              /*  case R.id.nav_about:
-                    showSecondaryFragment(SecondaryActivity.ABOUT);
-                    break;*/
-                case R.id.nav_settings:
-                    startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
-                    break;
-                default:
-                /* Slide down the audio player */
-                    slideDownAudioPlayer();
+            if (id == R.id.nav_settings) {
+                startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
+
+            } else {/* Slide down the audio player */
+                slideDownAudioPlayer();
 
                 /* Switch the fragment */
-                    Fragment fragment = getFragment(id);
-                    if (fragment instanceof MediaBrowserFragment)
-                        ((MediaBrowserFragment)fragment).setReadyToDisplay(false);
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.fragment_placeholder, fragment, tag);
-                    ft.addToBackStack(getTag(mCurrentFragmentId));
-                    ft.commit();
-                    mCurrentFragmentId = id;
+                Fragment fragment = getFragment(id);
+                if (fragment instanceof MediaBrowserFragment)
+                    ((MediaBrowserFragment) fragment).setReadyToDisplay(false);
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.fragment_placeholder, fragment, tag);
+                ft.addToBackStack(getTag(mCurrentFragmentId));
+                ft.commit();
+                mCurrentFragmentId = id;
             }
         }
         mNavigationView.setCheckedItem(mCurrentFragmentId);
@@ -883,15 +871,12 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     }
 
     private String getTag(int id){
-        switch (id){
-
-            case R.id.nav_settings:
-                return ID_PREFERENCES;
-
-            case R.id.nav_mrl:
-                return ID_MRL;
-            default:
-                return ID_VIDEO;
+        if (id == R.id.nav_settings) {
+            return ID_PREFERENCES;
+        } else if (id == R.id.nav_mrl) {
+            return ID_MRL;
+        } else {
+            return ID_VIDEO;
         }
     }
 }

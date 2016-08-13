@@ -118,52 +118,52 @@ public abstract class PickTimeFragment extends DialogFragment implements View.On
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.tim_pic_1:
-                updateValue("1");
-                break;
-            case R.id.tim_pic_2:
-                updateValue("2");
-                break;
-            case R.id.tim_pic_3:
-                updateValue("3");
-                break;
-            case R.id.tim_pic_4:
-                updateValue("4");
-                break;
-            case R.id.tim_pic_5:
-                updateValue("5");
-                break;
-            case R.id.tim_pic_6:
-                updateValue("6");
-                break;
-            case R.id.tim_pic_7:
-                updateValue("7");
-                break;
-            case R.id.tim_pic_8:
-                updateValue("8");
-                break;
-            case R.id.tim_pic_9:
-                updateValue("9");
-                break;
-            case R.id.tim_pic_0:
-                updateValue("0");
-                break;
-            case R.id.tim_pic_00:
-                updateValue("00");
-                break;
-            case R.id.tim_pic_30:
-                updateValue("30");
-                break;
-            case R.id.tim_pic_cancel:
-                dismiss();
-                break;
-            case R.id.tim_pic_delete:
-                deleteLastNumber();
-                break;
-            case R.id.tim_pic_ok:
-                executeAction();
-                break;
+        int i = v.getId();
+        if (i == R.id.tim_pic_1) {
+            updateValue("1");
+
+        } else if (i == R.id.tim_pic_2) {
+            updateValue("2");
+
+        } else if (i == R.id.tim_pic_3) {
+            updateValue("3");
+
+        } else if (i == R.id.tim_pic_4) {
+            updateValue("4");
+
+        } else if (i == R.id.tim_pic_5) {
+            updateValue("5");
+
+        } else if (i == R.id.tim_pic_6) {
+            updateValue("6");
+
+        } else if (i == R.id.tim_pic_7) {
+            updateValue("7");
+
+        } else if (i == R.id.tim_pic_8) {
+            updateValue("8");
+
+        } else if (i == R.id.tim_pic_9) {
+            updateValue("9");
+
+        } else if (i == R.id.tim_pic_0) {
+            updateValue("0");
+
+        } else if (i == R.id.tim_pic_00) {
+            updateValue("00");
+
+        } else if (i == R.id.tim_pic_30) {
+            updateValue("30");
+
+        } else if (i == R.id.tim_pic_cancel) {
+            dismiss();
+
+        } else if (i == R.id.tim_pic_delete) {
+            deleteLastNumber();
+
+        } else if (i == R.id.tim_pic_ok) {
+            executeAction();
+
         }
     }
 
