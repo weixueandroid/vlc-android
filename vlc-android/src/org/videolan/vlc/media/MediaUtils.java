@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.FileUtils;
@@ -28,6 +29,13 @@ public class MediaUtils {
     public static final String ACTION_SCAN_STOP = Strings.buildPkgString("gui.ScanStop");
 
     private static SubtitlesDownloader sSubtitlesDownloader;
+
+    public void init(Context context) {
+        if(context == null) {
+            throw new IllegalArgumentException("Context can't be null");
+        }
+        VLCApp.getInstance().setContext(context);
+    }
 
     public static void actionScanStart() {
         Intent intent = new Intent();
