@@ -44,7 +44,7 @@ import android.widget.Toast;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaWrapper;
 
@@ -99,7 +99,7 @@ public class SubtitlesDownloader {
             languages =  pref.getStringSet("languages_download_list", languages);
         }
         final ArrayList<String> finalLanguages = new ArrayList<>(languages);
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             @Override
             public void run() {
                 if (logIn()){
@@ -412,18 +412,18 @@ public class SubtitlesDownloader {
         StringBuilder textToDisplay = new StringBuilder();
         if (single){ // Text for the toast
             for (Entry<String, ArrayList<String>> entry : success.entrySet()) {
-                textToDisplay.append(VLCApplication.getAppResources().getString(R.string.snack_subloader_sub_found));
+                textToDisplay.append(VLCApp.getAppResources().getString(R.string.snack_subloader_sub_found));
                 if (entry.getValue().size() > 1)
                     textToDisplay.append(" ").append(entry.getValue().toString()).append("\n");
             }
             for (Entry<String, ArrayList<String>> entry : fails.entrySet()){
-                textToDisplay.append(VLCApplication.getAppResources().getString(R.string.snack_subloader_sub_not_found));
+                textToDisplay.append(VLCApp.getAppResources().getString(R.string.snack_subloader_sub_not_found));
                 if (entry.getValue().size() > 1)
                     textToDisplay.append(" ").append(entry.getValue().toString()).append("\n");
             }
         } else { // Text for the dialog box
             if (success.size()>0){
-                textToDisplay.append(VLCApplication.getAppResources().getString(R.string.dialog_subloader_success)).append("\n");
+                textToDisplay.append(VLCApp.getAppResources().getString(R.string.dialog_subloader_success)).append("\n");
 
                 for (Entry<String, ArrayList<String>> entry : success.entrySet()){
                     ArrayList<String> langs = entry.getValue();
@@ -436,7 +436,7 @@ public class SubtitlesDownloader {
             }
 
             if (fails.size()>0){
-                textToDisplay.append(VLCApplication.getAppResources().getString(R.string.dialog_subloader_fails)).append("\n");
+                textToDisplay.append(VLCApp.getAppResources().getString(R.string.dialog_subloader_fails)).append("\n");
 
                 for (Entry<String, ArrayList<String>> entry : fails.entrySet()){
                     ArrayList<String> langs = entry.getValue();
@@ -475,7 +475,7 @@ public class SubtitlesDownloader {
     private void showSnackBar(int stringId) {
         if (mContext == null)
             return;
-        showSnackBar(VLCApplication.getAppResources().getString(stringId));
+        showSnackBar(VLCApp.getAppResources().getString(stringId));
     }
 
     private void showSnackBar(final String text) {
@@ -541,7 +541,7 @@ public class SubtitlesDownloader {
                     break;
                 case DIALOG_UPDATE_MSG:
                     if (mDialog != null && mDialog.isShowing()) {
-                        mDialog.setMessage(VLCApplication.getAppResources().getString(msg.arg1));
+                        mDialog.setMessage(VLCApp.getAppResources().getString(msg.arg1));
                     }
                     break;
             }

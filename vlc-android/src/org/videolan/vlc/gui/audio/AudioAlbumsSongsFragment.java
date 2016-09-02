@@ -50,7 +50,7 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.SecondaryActivity;
@@ -297,7 +297,7 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
 
         mAlbumsAdapter.clear();
         mSongsAdapter.clear();
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             @Override
             public void run() {
                 Collections.sort(mMediaList, MediaComparators.byAlbum);
@@ -325,7 +325,7 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
             ArrayList<MediaWrapper> mediaList = mAlbumsAdapter.getMedias(p);
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
             i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUM);
-            VLCApplication.storeData(SecondaryActivity.ALBUM, mediaList);
+            VLCApp.storeData(SecondaryActivity.ALBUM, mediaList);
             i.putExtra("filter", mAlbumsAdapter.getTitle(p));
             startActivity(i);
         }
@@ -400,7 +400,7 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
                         mService.removeLocation(media.getLocation());
                 }
             });
-            VLCApplication.runBackground(new Runnable() {
+            VLCApp.runBackground(new Runnable() {
                 @Override
                 public void run() {
                     MediaDatabase.getInstance().removeMedia(media.getUri());

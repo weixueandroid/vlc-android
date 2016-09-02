@@ -33,7 +33,7 @@ import android.support.v7.preference.Preference;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.DebugLogActivity;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -72,7 +72,7 @@ public class Developer extends BasePreferenceFragment implements SharedPreferenc
     public boolean onPreferenceTreeClick(Preference preference) {
         switch (preference.getKey()){
             case "debug_logs":
-                Intent intent = new Intent(VLCApplication.getAppContext(), DebugLogActivity.class);
+                Intent intent = new Intent(VLCApp.getInstance().getAppContext(), DebugLogActivity.class);
                 startActivity(intent);
                 return true;
         }

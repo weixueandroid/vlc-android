@@ -99,7 +99,7 @@ import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.audio.PlaylistAdapter;
@@ -335,7 +335,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if (AndroidUtil.isJellyBeanMR1OrLater()) {
             // Get the media router service (Miracast)
-            mMediaRouter = (MediaRouter) VLCApplication.getAppContext().getSystemService(Context.MEDIA_ROUTER_SERVICE);
+            mMediaRouter = (MediaRouter) VLCApp.getInstance().getAppContext().getSystemService(Context.MEDIA_ROUTER_SERVICE);
             mMediaRouterCallback = new MediaRouter.SimpleCallback() {
                 @Override
                 public void onRoutePresentationDisplayChanged(
@@ -352,10 +352,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
-        mTouchControls = VLCApplication.showTvUi() ? 2 : Integer.valueOf(mSettings.getString(PreferencesUi.KEY_ENABLE_TOUCH_PLAYER, "0")).intValue();
+        mTouchControls = VLCApp.showTvUi() ? 2 : Integer.valueOf(mSettings.getString(PreferencesUi.KEY_ENABLE_TOUCH_PLAYER, "0")).intValue();
 
         /* Services and miscellaneous */
-        mAudioManager = (AudioManager) VLCApplication.getAppContext().getSystemService(AUDIO_SERVICE);
+        mAudioManager = (AudioManager) VLCApp.getInstance().getAppContext().getSystemService(AUDIO_SERVICE);
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
         mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
@@ -463,7 +463,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         IntentFilter filter = new IntentFilter();
         if (mBattery != null)
             filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-        filter.addAction(VLCApplication.SLEEP_INTENT);
+        filter.addAction(VLCApp.SLEEP_INTENT);
         registerReceiver(mReceiver, filter);
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -475,7 +475,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             // Orientation
             // Tips
             mOverlayTips = findViewById(R.id.player_overlay_tips);
-            if(BuildConfig.DEBUG || VLCApplication.showTvUi() || mSettings.getBoolean(PREF_TIPS_SHOWN, false))
+            if(BuildConfig.DEBUG || VLCApp.showTvUi() || mSettings.getBoolean(PREF_TIPS_SHOWN, false))
                 mOverlayTips.setVisibility(View.GONE);
             else {
                 mOverlayTips.bringToFront();
@@ -483,7 +483,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
 
             //Set margins for TV overscan
-            if (VLCApplication.showTvUi()) {
+            if (VLCApp.showTvUi()) {
                 int hm = getResources().getDimensionPixelSize(R.dimen.tv_overscan_horizontal);
                 int vm = getResources().getDimensionPixelSize(R.dimen.tv_overscan_vertical);
 
@@ -949,7 +949,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public static Intent getIntent(String action, MediaWrapper mw, boolean fromStart, int openedPosition) {
-        return getIntent(action, VLCApplication.getAppContext(), mw.getUri(), mw.getTitle(), fromStart, openedPosition);
+        return getIntent(action, VLCApp.getInstance().getAppContext(), mw.getUri(), mw.getTitle(), fromStart, openedPosition);
     }
 
     @NonNull
@@ -991,7 +991,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mBattery.setTextColor(Color.RED);
                 mBattery.setText(String.format("%d%%", batteryLevel));
             }
-            else if (action.equalsIgnoreCase(VLCApplication.SLEEP_INTENT)) {
+            else if (action.equalsIgnoreCase(VLCApp.SLEEP_INTENT)) {
                 exitOK();
             }
         }
@@ -1048,12 +1048,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY){
             if (Math.abs(x) > 0.3){
-                if (VLCApplication.showTvUi()) {
+                if (VLCApp.showTvUi()) {
                     navigateDvdMenu(x > 0.0f ? KeyEvent.KEYCODE_DPAD_RIGHT : KeyEvent.KEYCODE_DPAD_LEFT);
                 } else
                     seekDelta(x > 0.0f ? 10000 : -10000);
             } else if (Math.abs(y) > 0.3){
-                if (VLCApplication.showTvUi())
+                if (VLCApp.showTvUi())
                     navigateDvdMenu(x > 0.0f ? KeyEvent.KEYCODE_DPAD_UP : KeyEvent.KEYCODE_DPAD_DOWN);
                 else {
                     if (mIsFirstBrightnessGesture)
@@ -1081,7 +1081,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             togglePlaylist();
         } else if (mPlaybackSetting != DelayState.OFF){
             endPlaybackSetting();
-        } else if (VLCApplication.showTvUi() && mShowing && !mIsLocked) {
+        } else if (VLCApp.showTvUi() && mShowing && !mIsLocked) {
             hideOverlay(true);
         } else {
             exitOK();
@@ -1711,7 +1711,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSwitchingView = true;
         // Show the MainActivity if it is not in background.
         if (showUI) {
-            Intent i = new Intent(this, VLCApplication.showTvUi() ? AudioPlayerActivity.class : MainActivity.class);
+            Intent i = new Intent(this, VLCApp.showTvUi() ? AudioPlayerActivity.class : MainActivity.class);
             startActivity(i);
         } else
             Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, true));
@@ -2814,7 +2814,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
          * the background.
          * To workaround this, pause playback if the lockscreen is displayed.
          */
-        final KeyguardManager km = (KeyguardManager) VLCApplication.getAppContext().getSystemService(KEYGUARD_SERVICE);
+        final KeyguardManager km = (KeyguardManager) VLCApp.getInstance().getAppContext().getSystemService(KEYGUARD_SERVICE);
         if (km.inKeyguardRestrictedInputMode())
             mWasPaused = true;
         if (mWasPaused)
@@ -2984,7 +2984,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @SuppressWarnings("deprecation")
     private int getScreenRotation(){
-        WindowManager wm = (WindowManager) VLCApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) VLCApp.getInstance().getAppContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO /* Android 2.2 has getRotation */) {
             try {
@@ -3019,7 +3019,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         /*
          mScreenOrientation = 100, we lock screen at its current orientation
          */
-        WindowManager wm = (WindowManager) VLCApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) VLCApp.getInstance().getAppContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         int rot = getScreenRotation();
         /*

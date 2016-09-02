@@ -30,7 +30,7 @@ import android.util.AttributeSet;
 import android.view.Display;
 import android.view.WindowManager;
 
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 
 public class AutoFitRecyclerView extends ContextMenuRecyclerView {
 
@@ -85,7 +85,7 @@ public class AutoFitRecyclerView extends ContextMenuRecyclerView {
 
     public int getPerfectColumnWidth(int columnWidth, int margin) {
 
-        WindowManager wm = (WindowManager) VLCApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) VLCApp.getInstance().getAppContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         int displayWidth = display.getWidth() - margin;
 

@@ -44,7 +44,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.Extensions;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -134,8 +134,8 @@ public class MediaInfoFragment extends ListFragment {
             return;
         }
 
-        VLCApplication.runBackground(mCheckFile);
-        VLCApplication.runBackground(mLoadImage);
+        VLCApp.runBackground(mCheckFile);
+        VLCApp.runBackground(mLoadImage);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(mItem.getTitle());
         mLengthView.setText(Strings.millisToString(mItem.getLength()));
@@ -145,8 +145,8 @@ public class MediaInfoFragment extends ListFragment {
 
     public void onStop(){
         super.onStop();
-        VLCApplication.removeTask(mCheckFile);
-        VLCApplication.removeTask(mLoadImage);
+        VLCApp.removeTask(mCheckFile);
+        VLCApp.removeTask(mLoadImage);
         if (mMedia != null)
             mMedia.release();
     }
@@ -319,7 +319,7 @@ public class MediaInfoFragment extends ListFragment {
     private Runnable mDeleteAction = new Runnable() {
         @Override
         public void run() {
-            VLCApplication.runBackground(new Runnable() {
+            VLCApp.runBackground(new Runnable() {
                 @Override
                 public void run() {
                     FileUtils.deleteFile(mItem.getUri().getPath());

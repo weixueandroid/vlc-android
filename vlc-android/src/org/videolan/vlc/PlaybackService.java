@@ -240,7 +240,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
         // Make sure the audio player will acquire a wake-lock while playing. If we don't do
         // that, the CPU might go to sleep while the song is playing, causing playback to stop.
-        PowerManager pm = (PowerManager) VLCApplication.getAppContext().getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = (PowerManager) VLCApp.getInstance().getAppContext().getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
 
         IntentFilter filter = new IntentFilter();
@@ -257,7 +257,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_INIT);
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-        filter.addAction(VLCApplication.SLEEP_INTENT);
+        filter.addAction(VLCApp.SLEEP_INTENT);
         registerReceiver(mReceiver, filter);
         registerV21();
 
@@ -460,7 +460,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             }
 
             // skip all headsets events if there is a call
-            TelephonyManager telManager = (TelephonyManager) VLCApplication.getAppContext().getSystemService(Context.TELEPHONY_SERVICE);
+            TelephonyManager telManager = (TelephonyManager) VLCApp.getInstance().getAppContext().getSystemService(Context.TELEPHONY_SERVICE);
             if (telManager != null && telManager.getCallState() != TelephonyManager.CALL_STATE_IDLE)
                 return;
 
@@ -490,7 +490,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_BACKWARD)) {
                 previous();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_STOP) ||
-                    action.equalsIgnoreCase(VLCApplication.SLEEP_INTENT)) {
+                    action.equalsIgnoreCase(VLCApp.SLEEP_INTENT)) {
                 stop();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_FORWARD)) {
                 next();
@@ -763,7 +763,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     VideoPlayerActivity.getIntent(VideoPlayerActivity.PLAY_FROM_SERVICE,
                             getCurrentMediaWrapper(), false, mCurrentIndex));
         } else if (!mSwitchingToVideo) {//Start the video player
-            VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
+            VideoPlayerActivity.startOpened(VLCApp.getInstance().getAppContext(),
                     getCurrentMediaWrapper().getUri(), mCurrentIndex);
             mSwitchingToVideo = true;
         }
@@ -832,7 +832,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     final Bundle bundle = msg.getData();
                     final String text = bundle.getString("text");
                     final int duration = bundle.getInt("duration");
-                    Toast.makeText(VLCApplication.getAppContext(), text, duration).show();
+                    Toast.makeText(VLCApp.getInstance().getAppContext(), text, duration).show();
                     break;
             }
         }
@@ -854,7 +854,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) :
                     AudioUtil.getCover(this, getCurrentMedia(), 512);
             if (cover == null)
-                cover = BitmapFactory.decodeResource(VLCApplication.getAppContext().getResources(), R.drawable.icon);
+                cover = BitmapFactory.decodeResource(VLCApp.getInstance().getAppContext().getResources(), R.drawable.icon);
             Notification notification;
 
             //Watch notification dismissed
@@ -1770,14 +1770,14 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
             determinePrevAndNextIndices();
             if (mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true))
-                VLCApplication.runBackground(new Runnable() {
+                VLCApp.runBackground(new Runnable() {
                     @Override
                     public void run() {
                         MediaDatabase.getInstance().addHistoryItem(mw);
                     }
                 });
         } else {//Start VideoPlayer for first video, it will trigger playIndex when ready.
-            VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
+            VideoPlayerActivity.startOpened(VLCApp.getInstance().getAppContext(),
                     getCurrentMediaWrapper().getUri(), mCurrentIndex);
         }
     }

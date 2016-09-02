@@ -32,7 +32,7 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.text.TextUtils;
 
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.media.MediaLibrary;
@@ -65,7 +65,7 @@ public class SongsBrowserFragment extends SortedBrowserFragment {
     }
 
     protected void sort(){
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             @Override
             public void run() {
                 Collections.sort(mSongs, MediaComparators.byName);
@@ -80,7 +80,7 @@ public class SongsBrowserFragment extends SortedBrowserFragment {
 
     @Override
     public void onItemClicked(Presenter.ViewHolder viewHolder, final Object item, RowPresenter.ViewHolder viewHolder1, Row row) {
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             @Override
             public void run() {
                 int position = 0;

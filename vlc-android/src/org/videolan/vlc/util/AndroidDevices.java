@@ -38,7 +38,7 @@ import android.view.MotionEvent;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RemoteControlClientReceiver;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.media.MediaWrapper;
 
 import java.io.BufferedReader;
@@ -68,8 +68,8 @@ public class AndroidDevices {
         devicesWithoutNavBar.add("HTC One XL");
         hasNavBar = AndroidUtil.isICSOrLater()
                 && !devicesWithoutNavBar.contains(android.os.Build.MODEL);
-        hasTsp = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.hardware.touchscreen");
-        isTv = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.software.leanback");
+        hasTsp = VLCApp.getInstance().getAppContext().getPackageManager().hasSystemFeature("android.hardware.touchscreen");
+        isTv = VLCApp.getInstance().getAppContext().getPackageManager().hasSystemFeature("android.software.leanback");
         showInternalStorage = !TextUtils.equals(Build.BRAND, "Swisscom") && !TextUtils.equals(Build.BOARD, "sprint");
     }
 
@@ -91,7 +91,7 @@ public class AndroidDevices {
     }
 
     public static boolean isPhone() {
-        TelephonyManager manager = (TelephonyManager) VLCApplication.getAppContext().getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager manager = (TelephonyManager) VLCApp.getInstance().getAppContext().getSystemService(Context.TELEPHONY_SERVICE);
         return manager.getPhoneType() != TelephonyManager.PHONE_TYPE_NONE;
     }
 
@@ -168,7 +168,7 @@ public class AndroidDevices {
             directory = new MediaWrapper(AndroidUtil.PathToUri(mediaDirLocation));
             directory.setType(MediaWrapper.TYPE_DIR);
             if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
-                directory.setDisplayTitle(VLCApplication.getAppResources().getString(R.string.internal_memory));
+                directory.setDisplayTitle(VLCApp.getAppResources().getString(R.string.internal_memory));
             list.add(directory);
         }
         return list;
@@ -205,7 +205,7 @@ public class AndroidDevices {
 
     public static boolean hasPlayServices() {
         try {
-            VLCApplication.getAppContext().getPackageManager().getPackageInfo("com.google.android.gsf", PackageManager.GET_SERVICES);
+            VLCApp.getInstance().getAppContext().getPackageManager().getPackageInfo("com.google.android.gsf", PackageManager.GET_SERVICES);
             return true;
         } catch (PackageManager.NameNotFoundException e) {}
         return false;
@@ -213,7 +213,7 @@ public class AndroidDevices {
 
     public static boolean hasLANConnection() {
         boolean networkEnabled = false;
-        ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        ConnectivityManager connectivity = (ConnectivityManager) (VLCApp.getInstance().getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
         if (connectivity != null) {
             NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected() &&
@@ -226,7 +226,7 @@ public class AndroidDevices {
 
     public static boolean hasConnection() {
         boolean networkEnabled = false;
-        ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        ConnectivityManager connectivity = (ConnectivityManager) (VLCApp.getInstance().getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
         if (connectivity != null) {
             NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected()) {
@@ -238,7 +238,7 @@ public class AndroidDevices {
 
     public static boolean hasMobileConnection() {
         boolean networkEnabled = false;
-        ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        ConnectivityManager connectivity = (ConnectivityManager) (VLCApp.getInstance().getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
         if (connectivity != null) {
             NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected() &&
@@ -250,8 +250,8 @@ public class AndroidDevices {
     }
 
     public static void setRemoteControlReceiverEnabled(boolean enabled) {
-        VLCApplication.getAppContext().getPackageManager().setComponentEnabledSetting(
-                new ComponentName(VLCApplication.getAppContext(), RemoteControlClientReceiver.class),
+        VLCApp.getInstance().getAppContext().getPackageManager().setComponentEnabledSetting(
+                new ComponentName(VLCApp.getInstance().getAppContext(), RemoteControlClientReceiver.class),
                 enabled ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
                         PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP);

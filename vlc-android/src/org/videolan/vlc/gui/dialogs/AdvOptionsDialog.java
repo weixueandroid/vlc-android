@@ -50,7 +50,7 @@ import android.widget.Toast;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -112,7 +112,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     private TextView mChaptersTitle;
     private int mTextColor;
-    private static final int FOCUSED_TEXT_COLOR = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange300);
+    private static final int FOCUSED_TEXT_COLOR = ContextCompat.getColor(VLCApp.getInstance().getAppContext(), R.color.orange300);
     private PlaybackService mService;
 
     private IPlaybackSettingsController mPlaybackController;
@@ -122,8 +122,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (VLCApplication.sPlayerSleepTime != null && VLCApplication.sPlayerSleepTime.before(Calendar.getInstance()))
-            VLCApplication.sPlayerSleepTime = null;
+        if (VLCApp.sPlayerSleepTime != null && VLCApp.sPlayerSleepTime.before(Calendar.getInstance()))
+            VLCApp.sPlayerSleepTime = null;
         if (getArguments() != null && getArguments().containsKey(MODE_KEY))
             mMode = getArguments().getInt(MODE_KEY);
         else
@@ -260,9 +260,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     public static void setSleep(Calendar time) {
-        AlarmManager alarmMgr = (AlarmManager) VLCApplication.getAppContext().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(VLCApplication.SLEEP_INTENT);
-        PendingIntent sleepPendingIntent = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmMgr = (AlarmManager) VLCApp.getInstance().getAppContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(VLCApp.SLEEP_INTENT);
+        PendingIntent sleepPendingIntent = PendingIntent.getBroadcast(VLCApp.getInstance().getAppContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (time != null) {
             alarmMgr.set(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), sleepPendingIntent);
@@ -270,7 +270,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         else {
             alarmMgr.cancel(sleepPendingIntent);
         }
-        VLCApplication.sPlayerSleepTime = time;
+        VLCApp.sPlayerSleepTime = time;
     }
 
     public void initPlaybackSpeed () {
@@ -292,13 +292,13 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     public void initSleep () {
         String text = null;
-        if (VLCApplication.sPlayerSleepTime == null) {
+        if (VLCApp.sPlayerSleepTime == null) {
             mSleep.setCompoundDrawablesWithIntrinsicBounds(0,
                     UiTools.getResourceFromAttribute(mActivity, R.attr.ic_sleep_normal_style),
                     0, 0);
         } else {
             mSleep.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_sleep_on, 0, 0);
-            text = DateFormat.getTimeFormat(mActivity).format(VLCApplication.sPlayerSleepTime.getTime());
+            text = DateFormat.getTimeFormat(mActivity).format(VLCApp.sPlayerSleepTime.getTime());
         }
         mSleep.setText(text);
     }
@@ -446,7 +446,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case ID_SLEEP:
-                if (VLCApplication.sPlayerSleepTime == null)
+                if (VLCApp.sPlayerSleepTime == null)
                     showFragment(ID_SLEEP);
                 else {
                     setSleep(null);
@@ -538,7 +538,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mAdapter.clear();
         mService = service;
         int large_items = 0;
-        boolean tvUi = VLCApplication.showTvUi();
+        boolean tvUi = VLCApp.showTvUi();
 
         mAdapter.addOption(new Option(ID_SLEEP, R.attr.ic_sleep_normal_style, getString(R.string.sleep_title)));
         mAdapter.addOption(new Option(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, getString(R.string.playback_speed)));
@@ -691,7 +691,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
             @Override
             public boolean onLongClick(View view) {
-                Toast toast = Toast.makeText(VLCApplication.getAppContext(), mList.get(getAdapterPosition()).text, Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(VLCApp.getInstance().getAppContext(), mList.get(getAdapterPosition()).text, Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.TOP,0,0);
                 toast.show();
                 return true;

@@ -58,7 +58,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
@@ -658,7 +658,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             mPlaylistSearchButton.setVisibility(View.GONE);
             mPlaylistSearchText.setVisibility(View.VISIBLE);
             mPlaylistSearchText.getEditText().requestFocus();
-            InputMethodManager imm = (InputMethodManager) VLCApplication.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) VLCApp.getInstance().getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(mPlaylistSearchText.getEditText(), InputMethodManager.SHOW_IMPLICIT);
             mHandler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS);
 
@@ -744,7 +744,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             @Override
             public void run() {
                 if(!vibrated) {
-                    ((android.os.Vibrator) VLCApplication.getAppContext().getSystemService(Context.VIBRATOR_SERVICE))
+                    ((android.os.Vibrator) VLCApp.getInstance().getAppContext().getSystemService(Context.VIBRATOR_SERVICE))
                                 .vibrate(80);
                     vibrated = true;
                 }

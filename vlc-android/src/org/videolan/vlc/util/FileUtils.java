@@ -33,7 +33,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.media.MediaWrapper;
 
 import java.io.BufferedInputStream;
@@ -52,7 +52,7 @@ import java.nio.channels.FileChannel;
 
 public class FileUtils {
 
-    public static final File SUBTITLES_DIRECTORY = new File(VLCApplication.getAppContext().getExternalFilesDir(null), "subs");
+    public static final File SUBTITLES_DIRECTORY = new File(VLCApp.getInstance().getAppContext().getExternalFilesDir(null), "subs");
     /**
      * Size of the chunks that will be hashed in bytes (64 KB)
      */
@@ -100,7 +100,7 @@ public class FileUtils {
         Cursor cursor = null;
         try {
             String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = VLCApplication.getAppContext().getContentResolver().query(contentUri,  proj, null, null, null);
+            cursor = VLCApp.getInstance().getAppContext().getContentResolver().query(contentUri,  proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);
@@ -198,7 +198,7 @@ public class FileUtils {
         path = Uri.decode(Strings.removeFileProtocole(path));
         //Delete from Android Medialib, for consistency with device MTP storing and other apps listing content:// media
         if (AndroidUtil.isHoneycombOrLater()){
-            ContentResolver cr = VLCApplication.getAppContext().getContentResolver();
+            ContentResolver cr = VLCApp.getInstance().getAppContext().getContentResolver();
             String[] selectionArgs = { path };
             deleted = cr.delete(MediaStore.Files.getContentUri("external"),
                     MediaStore.Files.FileColumns.DATA + "=?", selectionArgs) > 0;
@@ -218,7 +218,7 @@ public class FileUtils {
     }
 
     private static void asyncRecursiveDelete(final File fileOrDirectory, final Callback callback) {
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             public void run() {
                 if (!fileOrDirectory.exists() || !fileOrDirectory.canWrite())
                     return;

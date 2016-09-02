@@ -49,7 +49,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
@@ -114,11 +114,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         if (bundle == null)
             bundle = getArguments();
         else
-            mFoldersContentLists = (SparseArray<ArrayList<MediaWrapper>>) VLCApplication.getData(KEY_CONTENT_LIST);
+            mFoldersContentLists = (SparseArray<ArrayList<MediaWrapper>>) VLCApp.getData(KEY_CONTENT_LIST);
         if (mFoldersContentLists == null)
             mFoldersContentLists = new SparseArray<>();
         if (bundle != null){
-            mediaList = (ArrayList<MediaWrapper>) VLCApplication.getData(KEY_MEDIA_LIST);
+            mediaList = (ArrayList<MediaWrapper>) VLCApp.getData(KEY_MEDIA_LIST);
             if (mediaList != null)
                 mAdapter.addAll(mediaList);
             mCurrentMedia = bundle.getParcelable(KEY_MEDIA);
@@ -176,8 +176,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public void onSaveInstanceState(Bundle outState){
         outState.putString(KEY_MRL, mMrl);
         outState.putParcelable(KEY_MEDIA, mCurrentMedia);
-        VLCApplication.storeData(KEY_MEDIA_LIST, mediaList);
-        VLCApplication.storeData(KEY_CONTENT_LIST, mFoldersContentLists);
+        VLCApp.storeData(KEY_MEDIA_LIST, mediaList);
+        VLCApp.storeData(KEY_CONTENT_LIST, mFoldersContentLists);
         if (mRecyclerView != null) {
             outState.putInt(KEY_POSITION, mLayoutManager.findFirstCompletelyVisibleItemPosition());
         }
@@ -226,7 +226,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         Bundle args = new Bundle();
         ArrayList<MediaWrapper> list = mFoldersContentLists != null ? mFoldersContentLists.get(position) : null;
         if(list != null && !list.isEmpty())
-            VLCApplication.storeData(KEY_MEDIA_LIST, list);
+            VLCApp.storeData(KEY_MEDIA_LIST, list);
         args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
         ft.replace(R.id.fragment_placeholder, next, media.getLocation());
@@ -354,7 +354,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     private void deleteMedia(final MediaWrapper mw) {
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             @Override
             public void run() {
                 FileUtils.deleteFile(mw.getUri().getPath());
@@ -642,14 +642,14 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         private String getDescription(int folderCount, int mediaFileCount) {
             String holderText = "";
             if (folderCount > 0) {
-                holderText += VLCApplication.getAppResources().getQuantityString(
+                holderText += VLCApp.getAppResources().getQuantityString(
                         R.plurals.subfolders_quantity, folderCount, folderCount
                 );
                 if (mediaFileCount > 0)
                     holderText += ", ";
             }
             if (mediaFileCount > 0)
-                holderText += VLCApplication.getAppResources().getQuantityString(
+                holderText += VLCApp.getAppResources().getQuantityString(
                         R.plurals.mediafiles_quantity, mediaFileCount,
                         mediaFileCount);
             else if (folderCount == 0 && mediaFileCount == 0)

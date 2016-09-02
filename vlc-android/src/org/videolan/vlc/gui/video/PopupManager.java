@@ -47,7 +47,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.view.PopupLayout;
 
 public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.Callback {
@@ -86,7 +86,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     public void showPopup() {
         mService.addCallback(this);
-        LayoutInflater li = (LayoutInflater) VLCApplication.getAppContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater li = (LayoutInflater) VLCApp.getInstance().getAppContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mRootView = (PopupLayout) li.inflate(R.layout.video_popup, null);
         mPlayPauseButton = (ImageView) mRootView.findViewById(R.id.video_play_pause);
         mCloseButton = (ImageView) mRootView.findViewById(R.id.popup_close);

@@ -38,7 +38,7 @@ import android.widget.Toast;
 
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.databinding.PlaylistItemBinding;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter;
@@ -165,7 +165,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     @Override
     public void onItemDismiss(final int position) {
         final MediaWrapper media = getItem(position);
-        String message = String.format(VLCApplication.getAppResources().getString(R.string.remove_playlist_item), media.getTitle());
+        String message = String.format(VLCApp.getAppResources().getString(R.string.remove_playlist_item), media.getTitle());
         if (mAudioPlayer instanceof Fragment){
             View v = ((Fragment) mAudioPlayer).getView();
             Runnable cancelAction = new Runnable() {
@@ -281,10 +281,10 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                 media = mOriginalDataSet.get(i);
                 title = MediaUtils.getMediaTitle(media);
                 location = media.getLocation();
-                artist = MediaUtils.getMediaArtist(VLCApplication.getAppContext(), media).toLowerCase();
-                albumArtist = MediaUtils.getMediaAlbumArtist(VLCApplication.getAppContext(), media).toLowerCase();
-                album = MediaUtils.getMediaAlbum(VLCApplication.getAppContext(), media).toLowerCase();
-                genre = MediaUtils.getMediaGenre(VLCApplication.getAppContext(), media).toLowerCase();
+                artist = MediaUtils.getMediaArtist(VLCApp.getInstance().getAppContext(), media).toLowerCase();
+                albumArtist = MediaUtils.getMediaAlbumArtist(VLCApp.getInstance().getAppContext(), media).toLowerCase();
+                album = MediaUtils.getMediaAlbum(VLCApp.getInstance().getAppContext(), media).toLowerCase();
+                genre = MediaUtils.getMediaGenre(VLCApp.getInstance().getAppContext(), media).toLowerCase();
                 for (String queryString : queryStrings) {
                     if (queryString.length() < 2)
                         continue;

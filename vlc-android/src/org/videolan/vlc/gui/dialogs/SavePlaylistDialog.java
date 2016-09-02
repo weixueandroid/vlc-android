@@ -41,11 +41,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserListAdapter;
 
 import java.util.ArrayList;
@@ -136,7 +136,7 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
     }
 
     private void savePlaylist() {
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             public void run() {
                 final MediaDatabase db = MediaDatabase.getInstance();
                 final String name = mEditText.getText().toString().trim();

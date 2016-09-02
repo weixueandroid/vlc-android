@@ -40,7 +40,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.extensions.api.IExtensionHost;
 import org.videolan.vlc.extensions.api.IExtensionService;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
@@ -107,7 +107,7 @@ public class ExtensionManagerService extends Service {
     }
 
     public List<ExtensionListing> updateAvailableExtensions() {
-        PackageManager pm = VLCApplication.getAppContext().getPackageManager();
+        PackageManager pm = VLCApp.getInstance().getAppContext().getPackageManager();
         List<ResolveInfo> resolveInfos = pm.queryIntentServices(
                 new Intent(ACTION_EXTENSION), PackageManager.GET_META_DATA);
 

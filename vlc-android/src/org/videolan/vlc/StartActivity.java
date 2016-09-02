@@ -65,9 +65,9 @@ public class StartActivity extends Activity {
                 MediaUtils.openUri(this, intent.getData());
             }
         } else if (intent != null && TextUtils.equals(intent.getAction(), AudioPlayerContainerActivity.ACTION_SHOW_PLAYER)) {
-            startActivity(new Intent(this, VLCApplication.showTvUi() ? AudioPlayerActivity.class : MainActivity.class));
+            startActivity(new Intent(this, VLCApp.showTvUi() ? AudioPlayerActivity.class : MainActivity.class));
         } else
-            startActivity(new Intent(this, VLCApplication.showTvUi() ? MainTvActivity.class : MainActivity.class));
+            startActivity(new Intent(this, VLCApp.showTvUi() ? MainTvActivity.class : MainActivity.class));
         finish();
         return;
     }

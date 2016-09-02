@@ -40,7 +40,7 @@ import android.widget.RelativeLayout;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 
 public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.OnScaleGestureListener, View.OnTouchListener {
     private static final String TAG = "VLC/PopupView";
@@ -108,8 +108,8 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
         mWindowManager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
 
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.video_pip_width),
-                VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.video_pip_heigth),
+                VLCApp.getAppResources().getDimensionPixelSize(R.dimen.video_pip_width),
+                VLCApp.getAppResources().getDimensionPixelSize(R.dimen.video_pip_heigth),
                 WindowManager.LayoutParams.TYPE_PHONE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.OPAQUE);

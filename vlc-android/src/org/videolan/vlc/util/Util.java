@@ -27,8 +27,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -44,7 +43,7 @@ public class Util {
         InputStream is = null;
         BufferedReader r = null;
         try {
-            is = VLCApplication.getAppResources().getAssets().open(assetName);
+            is = VLCApp.getAppResources().getAssets().open(assetName);
             r = new BufferedReader(new InputStreamReader(is, "UTF8"));
             StringBuilder sb = new StringBuilder();
             String line = r.readLine();
@@ -84,7 +83,7 @@ public class Util {
     }
 
     public static boolean isCallable(Intent intent) {
-        List<ResolveInfo> list = VLCApplication.getAppContext().getPackageManager().queryIntentActivities(intent,
+        List<ResolveInfo> list = VLCApp.getInstance().getAppContext().getPackageManager().queryIntentActivities(intent,
                 PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
     }

@@ -40,7 +40,6 @@ import android.widget.SectionIndexer;
 
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;

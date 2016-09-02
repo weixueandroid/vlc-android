@@ -38,7 +38,7 @@ import android.widget.TextView;
 
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.audio.AudioBrowserListAdapter;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.HttpImageLoader;
@@ -53,10 +53,10 @@ public class AsyncImageLoader {
     public final static String TAG = "VLC/AsyncImageLoader";
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
 
-    public static final BitmapDrawable DEFAULT_COVER_VIDEO = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.icon));
+    public static final BitmapDrawable DEFAULT_COVER_VIDEO = new BitmapDrawable(VLCApp.getAppResources(), BitmapCache.getFromResource(VLCApp.getAppResources(), R.drawable.icon));
 
     public static void LoadImage(final Callbacks cbs, final View target){
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             @Override
             public void run() {
                 final Bitmap bitmap = cbs.getImage();
@@ -166,15 +166,15 @@ public class AsyncImageLoader {
         final Object tag = v.getTag();
         if (tag == null || !(tag instanceof ViewDataBinding))
             return;
-        Bitmap bitmap = AudioUtil.getCoverFromMemCache(VLCApplication.getAppContext(), item.mMediaList, 64);
+        Bitmap bitmap = AudioUtil.getCoverFromMemCache(VLCApp.getInstance().getAppContext(), item.mMediaList, 64);
         if (bitmap != null) {
-            ((ViewDataBinding) tag).setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+            ((ViewDataBinding) tag).setVariable(BR.cover, new BitmapDrawable(VLCApp.getAppResources(), bitmap));
             return;
         }
         AsyncImageLoader.LoadImage(new Callbacks() {
             @Override
             public Bitmap getImage() {
-                return AudioUtil.getCover(VLCApplication.getAppContext(), item.mMediaList, 64);
+                return AudioUtil.getCover(VLCApp.getInstance().getAppContext(), item.mMediaList, 64);
             }
 
             @Override
@@ -205,7 +205,7 @@ public class AsyncImageLoader {
         if (vdb != null) {
             if (bitmap != null && bitmap.getWidth() != 1 && bitmap.getHeight() != 1) {
                 vdb.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
-                vdb.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+                vdb.setVariable(BR.cover, new BitmapDrawable(VLCApp.getAppResources(), bitmap));
             } else
                 vdb.setVariable(BR.cover, type == MediaWrapper.TYPE_VIDEO ? DEFAULT_COVER_VIDEO : AudioUtil.DEFAULT_COVER);
         } else {
@@ -232,7 +232,7 @@ public class AsyncImageLoader {
             if (!TextUtils.isEmpty(media.getArtworkURL()) && media.getArtworkURL().startsWith("http"))
                 return HttpImageLoader.downloadBitmap(media.getArtworkURL());
             return media.getType() == MediaWrapper.TYPE_VIDEO ? BitmapUtil.fetchPicture(media) :
-                    AudioUtil.getCover(VLCApplication.getAppContext(), media, 64);
+                    AudioUtil.getCover(VLCApp.getInstance().getAppContext(), media, 64);
         }
 
         @Override
@@ -246,10 +246,10 @@ public class AsyncImageLoader {
                         if (bitmap != null && (bitmap.getWidth() != 1 && bitmap.getHeight() != 1)) {
                             if (binding != null) {
                                 binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
-                                binding.setVariable(BR.image, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+                                binding.setVariable(BR.image, new BitmapDrawable(VLCApp.getAppResources(), bitmap));
                                 binding.setVariable(BR.protocol, null);
                             } else {
-                                target.setBackgroundDrawable(new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+                                target.setBackgroundDrawable(new BitmapDrawable(VLCApp.getAppResources(), bitmap));
                                 ((TextView) target).setText(null);
                             }
                         }

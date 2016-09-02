@@ -29,7 +29,7 @@ import android.widget.ListView;
 
 import org.videolan.vlc.DebugLogService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.helpers.UiTools;
 
 import java.util.ArrayList;
@@ -130,7 +130,7 @@ public class DebugLogActivity extends Activity implements DebugLogService.Client
             for (String line : mLogList)
                 buffer.append(line).append("\n");
 
-            android.text.ClipboardManager clipboard = (android.text.ClipboardManager)VLCApplication.getAppContext().getSystemService(CLIPBOARD_SERVICE);
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) VLCApp.getInstance().getAppContext().getSystemService(CLIPBOARD_SERVICE);
             clipboard.setText(buffer);
 
             UiTools.snacker(v.getRootView(), R.string.copied_to_clipboard);
@@ -170,7 +170,7 @@ public class DebugLogActivity extends Activity implements DebugLogService.Client
     public void onSaved(boolean success, String path) {
         if (success) {
             UiTools.snacker(getWindow().getDecorView().findViewById(android.R.id.content), String.format(
-                    VLCApplication.getAppResources().getString(R.string.dump_logcat_success),
+                    VLCApp.getAppResources().getString(R.string.dump_logcat_success),
                     path));
         } else {
             UiTools.snacker(getWindow().getDecorView().findViewById(android.R.id.content), R.string.dump_logcat_failure);

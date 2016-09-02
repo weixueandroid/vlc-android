@@ -33,7 +33,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.Extensions;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.audio.AudioBrowserListAdapter;
 import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.util.AndroidDevices;
@@ -118,7 +118,7 @@ public class MediaLibrary {
     }
 
     public void loadMediaItems(){
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             @Override
             public void run() {
                 mItemListLock.writeLock().lock();

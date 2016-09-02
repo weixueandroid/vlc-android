@@ -68,7 +68,7 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.StartActivity;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.extensions.ExtensionListing;
 import org.videolan.vlc.extensions.ExtensionManagerService;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
@@ -322,7 +322,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             Drawable extensionIcon = null;
             if (iconRes != 0) {
                 try {
-                    Resources res = VLCApplication.getAppContext().getPackageManager().getResourcesForApplication(extension.componentName().getPackageName());
+                    Resources res = VLCApp.getInstance().getAppContext().getPackageManager().getResourcesForApplication(extension.componentName().getPackageName());
                     extensionIcon = res.getDrawable(extension.menuIcon());
                 } catch (PackageManager.NameNotFoundException e) {}
             }
@@ -524,7 +524,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
         if (AndroidUtil.isFroyoOrLater()) {
             SearchManager searchManager =
-                    (SearchManager) VLCApplication.getAppContext().getSystemService(Context.SEARCH_SERVICE);
+                    (SearchManager) VLCApp.getInstance().getAppContext().getSystemService(Context.SEARCH_SERVICE);
             mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.ml_menu_search));
             mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             mSearchView.setQueryHint(getString(R.string.search_hint));

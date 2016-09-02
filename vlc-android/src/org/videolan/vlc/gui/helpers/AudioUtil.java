@@ -39,7 +39,7 @@ import android.widget.Toast;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
@@ -81,7 +81,7 @@ public class AudioUtil {
      */
     public static String PLAYLIST_DIR = null;
 
-    public static final BitmapDrawable DEFAULT_COVER = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.icon));
+    public static final BitmapDrawable DEFAULT_COVER = new BitmapDrawable(VLCApp.getAppResources(), BitmapCache.getFromResource(VLCApp.getAppResources(), R.drawable.icon));
 
     @RequiresPermission(android.Manifest.permission.WRITE_SETTINGS)
     public static void setRingtone(MediaWrapper song, Activity context){
@@ -209,8 +209,8 @@ public class AudioUtil {
 
             /* Parse decoded attachment */
             if( mArtist.length() == 0 || mAlbum.length() == 0 ||
-                    mArtist.equals(VLCApplication.getAppContext().getString(R.string.unknown_artist)) ||
-                    mAlbum.equals(VLCApplication.getAppContext().getString(R.string.unknown_album)) )
+                    mArtist.equals(VLCApp.getInstance().getAppContext().getString(R.string.unknown_artist)) ||
+                    mAlbum.equals(VLCApp.getInstance().getAppContext().getString(R.string.unknown_album)) )
             {
                 /* If artist or album are missing, it was cached by title MD5 hash */
                 MessageDigest md = MessageDigest.getInstance("MD5");

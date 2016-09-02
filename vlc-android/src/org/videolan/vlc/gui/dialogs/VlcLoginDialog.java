@@ -34,7 +34,7 @@ import android.widget.EditText;
 
 import org.videolan.libvlc.Dialog;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.databinding.VlcLoginDialogBinding;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
@@ -53,7 +53,7 @@ public class VlcLoginDialog extends VlcDialog<Dialog.LoginDialog, VlcLoginDialog
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (VLCApplication.showTvUi() && !AndroidDevices.hasPlayServices()) {
+        if (VLCApp.showTvUi() && !AndroidDevices.hasPlayServices()) {
             mBinding.login.setOnFocusChangeListener(this);
             mBinding.password.setOnFocusChangeListener(this);
         }

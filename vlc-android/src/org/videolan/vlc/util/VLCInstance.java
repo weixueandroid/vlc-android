@@ -28,7 +28,7 @@ import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.util.VLCUtil;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.VLCCrashHandler;
 import org.videolan.vlc.gui.CompatErrorActivity;
 import org.videolan.vlc.gui.NativeCrashActivity;
@@ -47,8 +47,8 @@ public class VLCInstance {
         @Override
         public void run() {
             String destinationFolder = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY+
-                    "/Android/data/"+VLCApplication.getAppContext().getPackageName()+"/lua";
-            AssetManager am = VLCApplication.getAppResources().getAssets();
+                    "/Android/data/"+VLCApp.getInstance().getAppContext().getPackageName()+"/lua";
+            AssetManager am = VLCApp.getAppResources().getAssets();
             FileUtils.copyAssetFolder(am, "lua", destinationFolder);
         }
     };
@@ -74,7 +74,7 @@ public class VLCInstance {
         FileOutputStream fos = null;
         boolean success = false;
         try {
-            is = VLCApplication.getAppResources().getAssets().open("libcompat.7.so");
+            is = VLCApp.getAppResources().getAssets().open("libcompat.7.so");
             fos = new FileOutputStream(outFile);
             final byte[] buffer = new byte[16*1024];
             int read;
@@ -101,7 +101,7 @@ public class VLCInstance {
         if (sLibVLC == null) {
             Thread.setDefaultUncaughtExceptionHandler(new VLCCrashHandler());
 
-            final Context context = VLCApplication.getAppContext();
+            final Context context = VLCApp.getInstance().getAppContext();
             if(!VLCUtil.hasCompatibleCPU(context)) {
                 Log.e(TAG, VLCUtil.getErrorMsg());
                 throw new IllegalStateException("LibVLC initialisation failed: " + VLCUtil.getErrorMsg());
@@ -122,7 +122,7 @@ public class VLCInstance {
                 }
             });
 
-            VLCApplication.runBackground(sCopyLua);
+            VLCApp.runBackground(sCopyLua);
         }
         return sLibVLC;
     }

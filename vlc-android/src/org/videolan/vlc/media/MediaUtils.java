@@ -15,7 +15,6 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApp;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
@@ -30,17 +29,18 @@ public class MediaUtils {
 
     private static SubtitlesDownloader sSubtitlesDownloader;
 
-    public void init(Context context) {
+    public static void init(Context context) {
         if(context == null) {
             throw new IllegalArgumentException("Context can't be null");
         }
         VLCApp.getInstance().setContext(context);
+        VLCApp.getInstance().onCreate();
     }
 
     public static void actionScanStart() {
         Intent intent = new Intent();
         intent.setAction(ACTION_SCAN_START);
-        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(VLCApp.getInstance().getAppContext()).sendBroadcast(intent);
     }
 
     public static void getSubs(Activity activity, ArrayList<MediaWrapper> mediaList) {
@@ -64,7 +64,7 @@ public class MediaUtils {
     public static void actionScanStop() {
         Intent intent = new Intent();
         intent.setAction(ACTION_SCAN_STOP);
-        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(VLCApp.getInstance().getAppContext()).sendBroadcast(intent);
     }
 
     public static void appendMedia(final Context context, final MediaWrapper media){
@@ -201,7 +201,7 @@ public class MediaUtils {
     public static Uri getContentMediaUri(Uri data) {
         Uri uri = null;
         try {
-            Cursor cursor = VLCApplication.getAppContext().getContentResolver().query(data,
+            Cursor cursor = VLCApp.getInstance().getAppContext().getContentResolver().query(data,
                     new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
             if (cursor != null) {
                 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);

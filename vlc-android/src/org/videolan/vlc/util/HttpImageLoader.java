@@ -39,7 +39,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.videolan.vlc.BR;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader.Callbacks;
 
 import java.io.BufferedInputStream;
@@ -131,7 +131,7 @@ public class HttpImageLoader implements Callbacks {
             if (bindChanged)
                 return;
             mBinding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
-            mBinding.setVariable(BR.image, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+            mBinding.setVariable(BR.image, new BitmapDrawable(VLCApp.getAppResources(), bitmap));
             mBinding.setVariable(BR.protocol, null);
         } else {
             sHandler.post(new Runnable() {

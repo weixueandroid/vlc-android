@@ -30,7 +30,7 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.media.MediaLibrary;
@@ -68,7 +68,7 @@ public class VideoBrowserFragment extends SortedBrowserFragment {
 
     @Override
     protected void browse() {
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             @Override
             public void run() {
                 mVideos = MediaLibrary.getInstance().getVideoItems();

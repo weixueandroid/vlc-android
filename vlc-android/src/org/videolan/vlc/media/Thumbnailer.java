@@ -31,7 +31,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.util.VLCInstance;
@@ -57,7 +57,7 @@ public class Thumbnailer implements Runnable {
     private final String mPrefix;
 
     public Thumbnailer() {
-        mPrefix = VLCApplication.getAppResources().getString(R.string.thumbnail);
+        mPrefix = VLCApp.getAppResources().getString(R.string.thumbnail);
     }
 
     public void start(IVideoBrowser videoBrowser) {
@@ -157,8 +157,8 @@ public class Thumbnailer implements Runnable {
             if (item.getArtworkURL() != null)
                 continue; //no need for thumbnail, we have a cover
 
-            int width = (VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_width));
-            int height = (VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_height));
+            int width = (VLCApp.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_width));
+            int height = (VLCApp.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_height));
 
             //Get bitmap
             byte[] b = VLCUtil.getThumbnail(VLCInstance.get(), item.getUri(), width, height);

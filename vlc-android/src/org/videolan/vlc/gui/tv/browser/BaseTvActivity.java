@@ -38,7 +38,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.tv.SearchActivity;
 import org.videolan.vlc.media.MediaLibrary;
@@ -98,7 +98,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
                 return;
             String action = intent.getAction();
             if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
-                final NetworkInfo networkInfo = ((ConnectivityManager) VLCApplication.getAppContext().getSystemService(
+                final NetworkInfo networkInfo = ((ConnectivityManager) VLCApp.getInstance().getAppContext().getSystemService(
                         Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
                 if (networkInfo == null || networkInfo.getState() == NetworkInfo.State.CONNECTED) {
                     if (networkInfo == null){

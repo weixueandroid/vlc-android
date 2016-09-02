@@ -43,7 +43,7 @@ import android.support.v4.util.SimpleArrayMap;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.CardPresenter;
 import org.videolan.vlc.gui.tv.DetailsActivity;
@@ -157,7 +157,7 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     }
 
     protected void sort(){
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             @Override
             public void run() {
                 mMediaItemMap = new TreeMap<>(mMediaItemMap); //sort sections

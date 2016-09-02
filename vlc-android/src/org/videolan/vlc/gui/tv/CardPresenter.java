@@ -39,7 +39,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
@@ -222,14 +222,14 @@ public class CardPresenter extends Presenter {
 
         CoverFetcher(MediaWrapper mediaWrapper){
             this.mediaWrapper = mediaWrapper;
-            res = VLCApplication.getAppResources();
+            res = VLCApp.getAppResources();
         }
 
         @Override
         public Bitmap getImage() {
             Bitmap picture;
             if (mediaWrapper.getType() == mediaWrapper.TYPE_AUDIO) {
-                picture = AudioUtil.getCover(VLCApplication.getAppContext(), mediaWrapper, 320);
+                picture = AudioUtil.getCover(VLCApp.getInstance().getAppContext(), mediaWrapper, 320);
                 if (picture == null)
                     picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_audio_big_normal);
             } else if (mediaWrapper.getType() == mediaWrapper.TYPE_VIDEO) {

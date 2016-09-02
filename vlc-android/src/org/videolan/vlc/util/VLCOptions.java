@@ -32,7 +32,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.media.MediaWrapper;
 
 import java.io.File;
@@ -52,16 +52,16 @@ public class VLCOptions {
     public static final int HW_ACCELERATION_FULL = 2;
 
     public static ArrayList<String> getLibOptions() {
-        final Context context = VLCApplication.getAppContext();
+        final Context context = VLCApp.getInstance().getAppContext();
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
         ArrayList<String> options = new ArrayList<String>(50);
 
-        final boolean timeStrechingDefault = VLCApplication.getAppResources().getBoolean(R.bool.time_stretching_default);
+        final boolean timeStrechingDefault = VLCApp.getAppResources().getBoolean(R.bool.time_stretching_default);
         final boolean timeStreching = pref.getBoolean("enable_time_stretching_audio", timeStrechingDefault);
         final String subtitlesEncoding = pref.getString("subtitle_text_encoding", "");
         final boolean frameSkip = pref.getBoolean("enable_frame_skip", false);
-        String chroma = pref.getString("chroma_format", VLCApplication.getAppResources().getString(R.string.chroma_format_default));
+        String chroma = pref.getString("chroma_format", VLCApp.getAppResources().getString(R.string.chroma_format_default));
         if (chroma != null)
             chroma = chroma.equals("YV12") && !AndroidUtil.isGingerbreadOrLater() ? "" : chroma;
         final boolean verboseMode = pref.getBoolean("enable_verbose_mode", true);

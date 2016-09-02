@@ -32,7 +32,7 @@ import android.util.Log;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 
 import java.lang.ref.SoftReference;
 
@@ -57,7 +57,7 @@ public class BitmapCache {
 
         // Get memory class of this device, exceeding this amount will throw an
         // OutOfMemory exception.
-        final ActivityManager am = ((ActivityManager) VLCApplication.getAppContext().getSystemService(
+        final ActivityManager am = ((ActivityManager) VLCApp.getInstance().getAppContext().getSystemService(
                 Context.ACTIVITY_SERVICE));
         final int memClass = AndroidUtil.isHoneycombOrLater() ? am.getLargeMemoryClass() : am.getMemoryClass();
 

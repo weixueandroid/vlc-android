@@ -46,7 +46,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 
 public class MediaDatabase {
     public final static String TAG = "VLC/MediaDatabase";
@@ -146,7 +146,7 @@ public class MediaDatabase {
 
     public synchronized static MediaDatabase getInstance() {
         if (instance == null) {
-            instance = new MediaDatabase(VLCApplication.getAppContext());
+            instance = new MediaDatabase(VLCApp.getInstance().getAppContext());
         }
         return instance;
     }
@@ -164,7 +164,7 @@ public class MediaDatabase {
                 return super.getWritableDatabase();
             } catch(SQLiteException e) {
                 try {
-                    db = SQLiteDatabase.openOrCreateDatabase(VLCApplication.getAppContext().getDatabasePath(DB_NAME), null);
+                    db = SQLiteDatabase.openOrCreateDatabase(VLCApp.getInstance().getAppContext().getDatabasePath(DB_NAME), null);
                 } catch(SQLiteException e2) {
                     Log.w(TAG, "SQLite database could not be created! Media library cannot be saved.");
                     db = SQLiteDatabase.create(null);

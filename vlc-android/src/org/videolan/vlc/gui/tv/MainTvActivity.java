@@ -54,7 +54,7 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RecommendationsService;
 import org.videolan.vlc.StartActivity;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
@@ -170,7 +170,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         else {
             updateBrowsers();
             updateNowPlayingCard();
-            VLCApplication.runBackground(new Runnable() {
+            VLCApp.runBackground(new Runnable() {
                 @Override
                 public void run() {
                     final ArrayList<MediaWrapper> history = MediaDatabase.getInstance().getHistory();
@@ -523,7 +523,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     }
 
     private void checkThumbs() {
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             @Override
             public void run() {
                 sThumbnailer = new Thumbnailer();
@@ -592,7 +592,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         } else  if (mService.hasMedia()){
             MediaWrapper mw = mService.getCurrentMediaWrapper();
             String display = MediaUtils.getMediaTitle(mw) + " - " + MediaUtils.getMediaReferenceArtist(MainTvActivity.this, mw);
-            Bitmap cover = AudioUtil.getCover(MainTvActivity.this, mw, VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_width));
+            Bitmap cover = AudioUtil.getCover(MainTvActivity.this, mw, VLCApp.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_width));
             if (mNowPlayingCard == null) {
                 if (cover != null)
                     mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, cover);

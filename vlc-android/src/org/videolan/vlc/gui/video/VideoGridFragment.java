@@ -49,7 +49,7 @@ import android.widget.TextView;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
@@ -398,7 +398,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             Log.w(TAG, "Can't generate thumbnails, the thumbnailer is missing");
 
         if (itemList.size() > 0) {
-            VLCApplication.runBackground(new Runnable() {
+            VLCApp.runBackground(new Runnable() {
                 @Override
                 public void run() {
                     final ArrayList<MediaWrapper> displayList = new ArrayList<>();
@@ -517,7 +517,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     public void deleteMedia(final MediaWrapper media){
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             @Override
             public void run() {
                 FileUtils.deleteFile(media.getUri().getPath());

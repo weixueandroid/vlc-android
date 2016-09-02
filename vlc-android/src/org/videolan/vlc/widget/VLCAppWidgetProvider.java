@@ -36,7 +36,7 @@ import android.widget.RemoteViews;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.Strings;
 
@@ -88,7 +88,7 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
             Intent iPlay = new Intent(ACTION_REMOTE_PLAYPAUSE);
             Intent iStop = new Intent(ACTION_REMOTE_STOP);
             Intent iForward = new Intent(ACTION_REMOTE_FORWARD);
-            Intent iVlc = new Intent(VLCApplication.getAppContext(), MainActivity.class);
+            Intent iVlc = new Intent(VLCApp.getInstance().getAppContext(), MainActivity.class);
 
             PendingIntent piBackward = PendingIntent.getBroadcast(context, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
             PendingIntent piPlay = PendingIntent.getBroadcast(context, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT);

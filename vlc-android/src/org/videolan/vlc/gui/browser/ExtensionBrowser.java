@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.extensions.ExtensionListing;
 import org.videolan.vlc.extensions.ExtensionManagerService;
 import org.videolan.vlc.extensions.Utils;
@@ -83,7 +83,7 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         mEmptyView = (TextView) v.findViewById(android.R.id.empty);
         mEmptyView.setText(R.string.extension_empty);
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(VLCApplication.getAppContext(), DividerItemDecoration.VERTICAL_LIST));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(VLCApp.getInstance().getAppContext(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(mScrollListener);

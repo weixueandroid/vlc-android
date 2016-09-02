@@ -33,7 +33,7 @@ import android.view.ViewGroup;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.databinding.DirectoryViewItemBinding;
 import org.videolan.vlc.gui.helpers.MediaComparators;
@@ -70,7 +70,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
 
     public BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
-        mEmptyDirectoryString = VLCApplication.getAppResources().getString(R.string.directory_empty);
+        mEmptyDirectoryString = VLCApp.getAppResources().getString(R.string.directory_empty);
     }
 
     @Override

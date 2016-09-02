@@ -30,7 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.audio.AudioAlbumFragment;
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
@@ -136,12 +136,12 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
 
     public void fetchSecondaryFragment(String id) {
         if (id.equals(ALBUMS_SONGS)) {
-            ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApplication.getData(ALBUMS_SONGS);
+            ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApp.getData(ALBUMS_SONGS);
             String filter = getIntent().getStringExtra(KEY_FILTER);
             mFragment = new AudioAlbumsSongsFragment();
             ((AudioAlbumsSongsFragment) mFragment).setMediaList(mediaList, filter);
         } else if(id.equals(ALBUM)) {
-            ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApplication.getData(ALBUM);
+            ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApp.getData(ALBUM);
             String filter = getIntent().getStringExtra(KEY_FILTER);
             mFragment = new AudioAlbumFragment();
             ((AudioAlbumFragment) mFragment).setMediaList(mediaList, filter);

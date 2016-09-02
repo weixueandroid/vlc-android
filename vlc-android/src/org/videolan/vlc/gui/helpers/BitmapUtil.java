@@ -29,10 +29,10 @@ import android.net.Uri;
 import android.os.Build;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 
 public class BitmapUtil {
     public final static String TAG = "VLC/UiTools/BitmapUtil";
@@ -120,7 +120,7 @@ public class BitmapUtil {
     private static Bitmap readCoverBitmap(String path) {
         if (path == null)
             return null;
-        Resources res = VLCApplication.getAppResources();
+        Resources res = VLCApp.getAppResources();
         String uri = Uri.decode(path);
         if (uri.startsWith("file://"))
             uri = uri.substring(7);

@@ -37,7 +37,7 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.text.TextUtils;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaWrapper;
 
@@ -75,7 +75,7 @@ public class SearchFragment extends android.support.v17.leanback.app.SearchFragm
         if (!TextUtils.isEmpty(words) && words.length() > 2) {
             mDelayedLoad.setSearchQuery(words);
             mDelayedLoad.setSearchType(MediaWrapper.TYPE_ALL);
-            VLCApplication.runBackground(mDelayedLoad);
+            VLCApp.runBackground(mDelayedLoad);
         }
     }
 

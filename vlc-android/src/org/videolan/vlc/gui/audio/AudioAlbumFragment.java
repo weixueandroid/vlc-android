@@ -48,7 +48,7 @@ import android.widget.ListView;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.SecondaryActivity;
@@ -248,7 +248,7 @@ public class AudioAlbumFragment extends PlaybackServiceFragment implements Adapt
     }
 
     private void deleteMedia(final MediaWrapper mw) {
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             @Override
             public void run() {
                 mMediaList.remove(mw);

@@ -40,24 +40,18 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class UiTools {
 
-    public static final int ITEM_FOCUS_ON = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange800);
-    public static final int ITEM_FOCUS_OFF = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.transparent);
+    public static final int ITEM_FOCUS_ON = ContextCompat.getColor(VLCApp.getInstance().getAppContext(), R.color.orange800);
+    public static final int ITEM_FOCUS_OFF = ContextCompat.getColor(VLCApp.getInstance().getAppContext(), R.color.transparent);
 
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
 
@@ -97,7 +91,7 @@ public class UiTools {
     }
 
     public static int convertPxToDp(int px) {
-        DisplayMetrics metrics = VLCApplication.getAppResources().getDisplayMetrics();
+        DisplayMetrics metrics = VLCApp.getAppResources().getDisplayMetrics();
         float logicalDensity = metrics.density;
         int dp = Math.round(px / logicalDensity);
         return dp;
@@ -106,7 +100,7 @@ public class UiTools {
     public static int convertDpToPx(int dp) {
         return Math.round(
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                        VLCApplication.getAppResources().getDisplayMetrics())
+                        VLCApp.getAppResources().getDisplayMetrics())
         );
     }
 
@@ -130,7 +124,7 @@ public class UiTools {
      * @return the color id
      */
     public static int getColorFromAttribute(Context context, int attrId) {
-        return VLCApplication.getAppResources().getColor(getResourceFromAttribute(context, attrId));
+        return VLCApp.getAppResources().getColor(getResourceFromAttribute(context, attrId));
     }
     /**
      * Set the alignment mode of the specified TextView with the desired align
@@ -179,13 +173,13 @@ public class UiTools {
     }
 
     public static boolean isBlackThemeEnabled() {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApp.getInstance().getAppContext());
         return pref.getBoolean("enable_black_theme", false);
     }
 
     public static void fillAboutView(View v) {
         TextView link = (TextView) v.findViewById(R.id.main_link);
-        link.setText(Html.fromHtml(VLCApplication.getAppResources().getString(R.string.about_link)));
+        link.setText(Html.fromHtml(VLCApp.getAppResources().getString(R.string.about_link)));
 
        /* String revision = VLCApplication.getAppResources().getString(R.string.build_revision)+" VLC: "+VLCApplication.getAppResources().getString(R.string.build_vlc_revision);
         String builddate = VLCApplication.getAppResources().getString(R.string.build_time);
@@ -211,7 +205,7 @@ public class UiTools {
     }
 
     public static void setKeyboardVisibility(final View v, final boolean show) {
-        final InputMethodManager inputMethodManager = (InputMethodManager) VLCApplication.getAppContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        final InputMethodManager inputMethodManager = (InputMethodManager) VLCApp.getInstance().getAppContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
         sHandler.post(new Runnable() {
             @Override
             public void run() {

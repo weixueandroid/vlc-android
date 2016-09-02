@@ -35,7 +35,7 @@ import android.widget.LinearLayout;
 
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -257,7 +257,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         if (media.getType() == MediaWrapper.TYPE_GROUP) {
             MediaGroup mediaGroup = (MediaGroup) media;
             int size = mediaGroup.size();
-            resolution = VLCApplication.getAppResources().getQuantityString(R.plurals.videos_quantity, size, size);
+            resolution = VLCApp.getAppResources().getQuantityString(R.plurals.videos_quantity, size, size);
         } else {
             /* Time / Duration */
             if (media.getLength() > 0) {

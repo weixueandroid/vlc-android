@@ -29,7 +29,7 @@ import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 
@@ -41,7 +41,7 @@ public class DirectoryBrowserFragment extends MediaSortedFragment{
     public static final String TAG = "VLC/NetworkBrowserFragment";
 
     protected void browseRoot() {
-        VLCApplication.runBackground(new Runnable() {
+        VLCApp.runBackground(new Runnable() {
             @Override
             public void run() {
                 String storages[] = AndroidDevices.getMediaDirectories();

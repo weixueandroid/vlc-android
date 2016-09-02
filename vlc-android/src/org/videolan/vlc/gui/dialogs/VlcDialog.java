@@ -34,7 +34,7 @@ import android.view.ViewGroup;
 
 import org.videolan.libvlc.Dialog;
 import org.videolan.vlc.BR;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 
 public abstract class VlcDialog<T extends Dialog, B extends android.databinding.ViewDataBinding> extends DialogFragment {
 
@@ -44,7 +44,7 @@ public abstract class VlcDialog<T extends Dialog, B extends android.databinding.
     abstract int getLayout();
 
     public void init(String key) {
-        mVlcDialog = (T) VLCApplication.getData(key);
+        mVlcDialog = (T) VLCApp.getData(key);
     }
 
     @Nullable

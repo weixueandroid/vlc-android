@@ -43,7 +43,7 @@ import android.support.v7.preference.PreferenceManager;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 
 public class Permissions {
 
@@ -70,7 +70,7 @@ public class Permissions {
     }
 
     public static boolean canReadStorage() {
-        return ContextCompat.checkSelfPermission(VLCApplication.getAppContext(),
+        return ContextCompat.checkSelfPermission(VLCApp.getInstance().getAppContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
@@ -132,7 +132,7 @@ public class Permissions {
                             Intent i = new Intent();
                             i.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
                             i.addCategory(Intent.CATEGORY_DEFAULT);
-                            i.setData(Uri.parse("package:" + VLCApplication.getAppContext().getPackageName()));
+                            i.setData(Uri.parse("package:" + VLCApp.getInstance().getAppContext().getPackageName()));
                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             try {
                                 activity.startActivity(i);
@@ -170,7 +170,7 @@ public class Permissions {
                             Intent i = new Intent();
                             i.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
                             i.addCategory(Intent.CATEGORY_DEFAULT);
-                            i.setData(Uri.parse("package:" + VLCApplication.getAppContext().getPackageName()));
+                            i.setData(Uri.parse("package:" + VLCApp.getInstance().getAppContext().getPackageName()));
                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             try {
                                 activity.startActivity(i);

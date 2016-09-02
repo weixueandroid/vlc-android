@@ -31,7 +31,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
@@ -89,7 +89,7 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
     public boolean onPreferenceTreeClick(Preference preference) {
         switch (preference.getKey()){
             case "directories":
-                Intent intent = new Intent(VLCApplication.getAppContext(), SecondaryActivity.class);
+                Intent intent = new Intent(VLCApp.getInstance().getAppContext(), SecondaryActivity.class);
                 intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER);
                 startActivity(intent);
                 getActivity().setResult(PreferencesActivity.RESULT_RESTART);
