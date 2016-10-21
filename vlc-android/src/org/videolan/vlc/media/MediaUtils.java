@@ -52,11 +52,6 @@ public class MediaUtils {
 //        getSubs(activity, mediaList);
 //    }
 
-    public static void updateSubsDownloaderActivity(Activity activity) {
-        if (sSubtitlesDownloader != null)
-            sSubtitlesDownloader.setActivity(activity);
-    }
-
     public static void actionScanStop() {
         Intent intent = new Intent();
         intent.setAction(ACTION_SCAN_STOP);

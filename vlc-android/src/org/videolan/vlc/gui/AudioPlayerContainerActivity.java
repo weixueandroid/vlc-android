@@ -93,8 +93,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         /* Set up the audio player */
         mAudioPlayer = new AudioPlayer();
 
-        MediaUtils.updateSubsDownloaderActivity(this);
-
         super.onCreate(savedInstanceState);
     }
 
