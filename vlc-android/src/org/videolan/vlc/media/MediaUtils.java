@@ -18,16 +18,12 @@ import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.SubtitlesDownloader;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MediaUtils {
     public static final String ACTION_SCAN_START = Strings.buildPkgString("gui.ScanStart");
     public static final String ACTION_SCAN_STOP = Strings.buildPkgString("gui.ScanStop");
-
-    private static SubtitlesDownloader sSubtitlesDownloader;
 
     public static void init(Context context) {
         if(context == null) {
