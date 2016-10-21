@@ -325,7 +325,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                 mService.append(media);
             return true;
         } else if (i1 == R.id.video_download_subtitles) {
-            MediaUtils.getSubs(getActivity(), media);
+           // MediaUtils.getSubs(getActivity(), media);
             return true;
         }
         return false;

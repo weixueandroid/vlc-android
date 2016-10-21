@@ -54,7 +54,6 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.tv.browser.NetworkBrowserFragment;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IRefreshable;
@@ -519,7 +518,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             savePlaylistDialog.show(fm, "fragment_add_to_playlist");
             return true;
         } else if (id == R.id.directory_subtitles_download) {
-            MediaUtils.getSubs(getActivity(), mw);
+          //  MediaUtils.getSubs(getActivity(), mw);
             return true;
 //            case R.id.directory_view_hide_media:
 //                try {

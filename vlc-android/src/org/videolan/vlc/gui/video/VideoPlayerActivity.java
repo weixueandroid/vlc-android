@@ -109,7 +109,6 @@ import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesUi;
-import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IPlaybackSettingsController;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
@@ -1711,7 +1710,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSwitchingView = true;
         // Show the MainActivity if it is not in background.
         if (showUI) {
-            Intent i = new Intent(this, VLCApp.showTvUi() ? AudioPlayerActivity.class : MainActivity.class);
+            Intent i = new Intent(this,  MainActivity.class);
             startActivity(i);
         } else
             Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, true));

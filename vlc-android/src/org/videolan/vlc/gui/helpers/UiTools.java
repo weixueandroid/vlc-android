@@ -178,8 +178,8 @@ public class UiTools {
     }
 
     public static void fillAboutView(View v) {
-        TextView link = (TextView) v.findViewById(R.id.main_link);
-        link.setText(Html.fromHtml(VLCApp.getAppResources().getString(R.string.about_link)));
+//        TextView link = (TextView) v.findViewById(R.id.main_link);
+//        link.setText(Html.fromHtml(VLCApp.getAppResources().getString(R.string.about_link)));
 
        /* String revision = VLCApplication.getAppResources().getString(R.string.build_revision)+" VLC: "+VLCApplication.getAppResources().getString(R.string.build_vlc_revision);
         String builddate = VLCApplication.getAppResources().getString(R.string.build_time);

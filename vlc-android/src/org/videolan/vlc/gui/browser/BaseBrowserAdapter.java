@@ -37,7 +37,6 @@ import org.videolan.vlc.VLCApp;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.databinding.DirectoryViewItemBinding;
 import org.videolan.vlc.gui.helpers.MediaComparators;
-import org.videolan.vlc.gui.tv.browser.NetworkBrowserFragment;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;

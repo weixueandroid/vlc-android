@@ -30,19 +30,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApp;
-import org.videolan.vlc.gui.audio.AudioAlbumFragment;
-import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
-import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
-
-import java.util.ArrayList;
 
 public class SecondaryActivity extends AudioPlayerContainerActivity {
     public final static String TAG = "VLC/SecondaryActivity";
@@ -136,23 +129,23 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
 
     public void fetchSecondaryFragment(String id) {
         if (id.equals(ALBUMS_SONGS)) {
-            ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApp.getData(ALBUMS_SONGS);
-            String filter = getIntent().getStringExtra(KEY_FILTER);
-            mFragment = new AudioAlbumsSongsFragment();
-            ((AudioAlbumsSongsFragment) mFragment).setMediaList(mediaList, filter);
+//            ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApp.getData(ALBUMS_SONGS);
+//            String filter = getIntent().getStringExtra(KEY_FILTER);
+//            mFragment = new AudioAlbumsSongsFragment();
+//            ((AudioAlbumsSongsFragment) mFragment).setMediaList(mediaList, filter);
         } else if(id.equals(ALBUM)) {
-            ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApp.getData(ALBUM);
-            String filter = getIntent().getStringExtra(KEY_FILTER);
-            mFragment = new AudioAlbumFragment();
-            ((AudioAlbumFragment) mFragment).setMediaList(mediaList, filter);
+//            ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApp.getData(ALBUM);
+//            String filter = getIntent().getStringExtra(KEY_FILTER);
+//            mFragment = new AudioAlbumFragment();
+//            ((AudioAlbumFragment) mFragment).setMediaList(mediaList, filter);
         } else if(id.equals(EQUALIZER)) {
-            mFragment = new EqualizerFragment();
+            //mFragment = new EqualizerFragment();
         } else if(id.equals(MEDIA_INFO)) {
             mFragment = new MediaInfoFragment();
             ((MediaInfoFragment)mFragment).setMediaLocation(getIntent().getStringExtra("param"));
         } else if(id.equals(VIDEO_GROUP_LIST)) {
-            mFragment = new VideoGridFragment();
-            ((VideoGridFragment) mFragment).setGroup(getIntent().getStringExtra("param"));
+//            mFragment = new VideoGridFragment();
+//            ((VideoGridFragment) mFragment).setGroup(getIntent().getStringExtra("param"));
         } else {
             throw new IllegalArgumentException("Wrong fragment id.");
         }

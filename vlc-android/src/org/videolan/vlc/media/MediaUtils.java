@@ -43,18 +43,18 @@ public class MediaUtils {
         LocalBroadcastManager.getInstance(VLCApp.getInstance().getAppContext()).sendBroadcast(intent);
     }
 
-    public static void getSubs(Activity activity, ArrayList<MediaWrapper> mediaList) {
-        if (sSubtitlesDownloader == null)
-            sSubtitlesDownloader = new SubtitlesDownloader();
-        sSubtitlesDownloader.setActivity(activity);
-        sSubtitlesDownloader.downloadSubs(mediaList);
-    }
+//    public static void getSubs(Activity activity, ArrayList<MediaWrapper> mediaList) {
+//        if (sSubtitlesDownloader == null)
+//            sSubtitlesDownloader = new SubtitlesDownloader();
+//        sSubtitlesDownloader.setActivity(activity);
+//        sSubtitlesDownloader.downloadSubs(mediaList);
+//    }
 
-    public static void getSubs(Activity activity, MediaWrapper media) {
-        ArrayList<MediaWrapper> mediaList = new ArrayList<>();
-        mediaList.add(media);
-        getSubs(activity, mediaList);
-    }
+//    public static void getSubs(Activity activity, MediaWrapper media) {
+//        ArrayList<MediaWrapper> mediaList = new ArrayList<>();
+//        mediaList.add(media);
+//        getSubs(activity, mediaList);
+//    }
 
     public static void updateSubsDownloaderActivity(Activity activity) {
         if (sSubtitlesDownloader != null)
