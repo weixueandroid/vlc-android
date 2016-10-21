@@ -2,7 +2,7 @@
 /vlc/
 
 # Android .so
-/android-libs/**/*.so
+-/android-libs/**/*.so
 .modules/
 
 # tmp dir used by gdb.sh

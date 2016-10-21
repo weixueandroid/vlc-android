@@ -97,7 +97,7 @@ android {
     buildTypes {
         release {
 //            signingConfig signingConfigs.release
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources false
             proguardFile 'proguard.cfg'
         }
@@ -193,9 +193,9 @@ android {
         res.srcDirs = ['res']
         assets.srcDirs = ['assets']
     }
-    sourceSets.release {
-        manifest.srcFile 'flavors/release/AndroidManifest.xml'
-    }
+//    sourceSets.release {
+//        manifest.srcFile 'flavors/release/AndroidManifest.xml'
+//    }
 //    sourceSets.test {
 //        java.srcDirs = ['test']
 //    }
