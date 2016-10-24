@@ -144,8 +144,8 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
             mFragment = new MediaInfoFragment();
             ((MediaInfoFragment)mFragment).setMediaLocation(getIntent().getStringExtra("param"));
         } else if(id.equals(VIDEO_GROUP_LIST)) {
-//            mFragment = new VideoGridFragment();
-//            ((VideoGridFragment) mFragment).setGroup(getIntent().getStringExtra("param"));
+            mFragment = new VideoGridFragment();
+            ((VideoGridFragment) mFragment).setGroup(getIntent().getStringExtra("param"));
         } else {
             throw new IllegalArgumentException("Wrong fragment id.");
         }
