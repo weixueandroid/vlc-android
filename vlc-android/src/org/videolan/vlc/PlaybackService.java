@@ -65,14 +65,13 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaList;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.MediaInfo;
 import org.videolan.vlc.gui.video.PopupManager;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
-import org.videolan.vlc.media.MediaDatabase;
+
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.media.MediaWrapperList;
@@ -603,20 +602,20 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
                     final MediaWrapper mw = mMediaList.getMedia(mCurrentIndex);
                     if (mw != null) {
-                        long length = mMediaPlayer.getLength();
-                        MediaDatabase dbManager = MediaDatabase.getInstance();
-                        MediaWrapper m = dbManager.getMedia(mw.getUri());
-                        /**
-                         * 1) There is a media to update
-                         * 2) It has a length of 0
-                         * (dynamic track loading - most notably the OGG container)
-                         * 3) We were able to get a length even after parsing
-                         * (don't want to replace a 0 with a 0)
-                         */
-                        if (m != null && m.getLength() == 0 && length > 0) {
-                            dbManager.updateMedia(mw.getUri(),
-                                    MediaDatabase.INDEX_MEDIA_LENGTH, length);
-                        }
+//                        long length = mMediaPlayer.getLength();
+//                        MediaDatabase dbManager = MediaDatabase.getInstance();
+//                        MediaWrapper m = dbManager.getMedia(mw.getUri());
+//                        /**
+//                         * 1) There is a media to update
+//                         * 2) It has a length of 0
+//                         * (dynamic track loading - most notably the OGG container)
+//                         * 3) We were able to get a length even after parsing
+//                         * (don't want to replace a 0 with a 0)
+//                         */
+//                        if (m != null && m.getLength() == 0 && length > 0) {
+//                            dbManager.updateMedia(mw.getUri(),
+//                                    MediaDatabase.INDEX_MEDIA_LENGTH, length);
+//                        }
                     }
 
                     changeAudioFocus(true);
@@ -874,7 +873,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 .setDeleteIntent(piStop);
 
 
-            PendingIntent pendingIntent;
+            PendingIntent pendingIntent = null;
             if (mVideoBackground || (canSwitchToVideo() && !mMediaList.getMedia(mCurrentIndex).hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO))) {
                 /* Resume VideoPlayerActivity from ACTION_REMOTE_SWITCH_VIDEO intent */
                 final Intent notificationIntent = new Intent(ACTION_REMOTE_SWITCH_VIDEO);
@@ -882,10 +881,10 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             } else {
                 /* Resume AudioPlayerActivity */
 
-                final Intent notificationIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
-                notificationIntent.setAction(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER);
-                notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-                pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//                final Intent notificationIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+//                notificationIntent.setAction(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER);
+//                notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+//                pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             }
 
             builder.setContentIntent(pendingIntent);
@@ -1596,21 +1595,21 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public void loadLocations(List<String> mediaPathList, int position) {
         ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
-        MediaDatabase db = MediaDatabase.getInstance();
+//        MediaDatabase db = MediaDatabase.getInstance();
 
         for (int i = 0; i < mediaPathList.size(); i++) {
             String location = mediaPathList.get(i);
-            MediaWrapper mediaWrapper = db.getMedia(Uri.parse(location));
-            if (mediaWrapper == null) {
-                if (!validateLocation(location)) {
-                    Log.w(TAG, "Invalid location " + location);
-                    showToast(getResources().getString(R.string.invalid_location, location), Toast.LENGTH_SHORT);
-                    continue;
-                }
-                Log.v(TAG, "Creating on-the-fly Media object for " + location);
-                mediaWrapper = new MediaWrapper(Uri.parse(location));
-            }
-            mediaList.add(mediaWrapper);
+//            MediaWrapper mediaWrapper = db.getMedia(Uri.parse(location));
+//            if (mediaWrapper == null) {
+//                if (!validateLocation(location)) {
+//                    Log.w(TAG, "Invalid location " + location);
+//                    showToast(getResources().getString(R.string.invalid_location, location), Toast.LENGTH_SHORT);
+//                    continue;
+//                }
+//                Log.v(TAG, "Creating on-the-fly Media object for " + location);
+//                mediaWrapper = new MediaWrapper(Uri.parse(location));
+//            }
+//            mediaList.add(mediaWrapper);
         }
         load(mediaList, position);
     }
@@ -1625,20 +1624,20 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public void loadMediaInfo(List<MediaInfo> mediaPathList, int position) {
         ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
-        MediaDatabase db = MediaDatabase.getInstance();
+//        MediaDatabase db = MediaDatabase.getInstance();
 
         for (int i = 0; i < mediaPathList.size(); i++) {
             String location = mediaPathList.get(i).getPath();
-            MediaWrapper mediaWrapper = db.getMedia(Uri.parse(location));
-            if (mediaWrapper == null) {
+//            MediaWrapper mediaWrapper = db.getMedia(Uri.parse(location));
+//            if (mediaWrapper == null) {
                 if (!validateLocation(location)) {
                     Log.w(TAG, "Invalid location " + location);
                     showToast(getResources().getString(R.string.invalid_location, location), Toast.LENGTH_SHORT);
                     continue;
                 }
                 Log.v(TAG, "Creating on-the-fly Media object for " + location);
-                mediaWrapper = new MediaWrapper(Uri.parse(location), mediaPathList.get(i).getTitle());
-            }
+            MediaWrapper mediaWrapper = new MediaWrapper(Uri.parse(location), mediaPathList.get(i).getTitle());
+//            }
             mediaList.add(mediaWrapper);
         }
         load(mediaList, position);
@@ -1773,7 +1772,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 VLCApp.runBackground(new Runnable() {
                     @Override
                     public void run() {
-                        MediaDatabase.getInstance().addHistoryItem(mw);
+                     //   MediaDatabase.getInstance().addHistoryItem(mw);
                     }
                 });
         } else {//Start VideoPlayer for first video, it will trigger playIndex when ready.

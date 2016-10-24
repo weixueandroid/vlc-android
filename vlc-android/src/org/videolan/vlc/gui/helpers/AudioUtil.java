@@ -81,7 +81,7 @@ public class AudioUtil {
      */
     public static String PLAYLIST_DIR = null;
 
-    public static final BitmapDrawable DEFAULT_COVER = new BitmapDrawable(VLCApp.getAppResources(), BitmapCache.getFromResource(VLCApp.getAppResources(), R.drawable.icon));
+    //public static final BitmapDrawable DEFAULT_COVER = new BitmapDrawable(VLCApp.getAppResources(), BitmapCache.getFromResource(VLCApp.getAppResources(), R.drawable.icon));
 
     @RequiresPermission(android.Manifest.permission.WRITE_SETTINGS)
     public static void setRingtone(MediaWrapper song, Activity context){
@@ -285,75 +285,76 @@ public class AudioUtil {
     }
 
     public static Bitmap getCoverFromMemCache(Context context, MediaWrapper media, int width) {
-        if (media != null && media.getArtist() != null && media.getAlbum() != null) {
-            final BitmapCache cache = BitmapCache.getInstance();
-            return cache.getBitmapFromMemCache(getCoverCachePath(context, media, width));
-        } else
+//        if (media != null && media.getArtist() != null && media.getAlbum() != null) {
+//            final BitmapCache cache = BitmapCache.getInstance();
+//            return cache.getBitmapFromMemCache(getCoverCachePath(context, media, width));
+//        } else
             return null;
     }
 
     @SuppressLint("NewApi")
     public synchronized static Bitmap getCover(Context context, MediaWrapper media, int width) {
-        BitmapCache cache = BitmapCache.getInstance();
-        String coverPath = null;
-        Bitmap cover = null;
-        String cachePath = null;
-        File cacheFile = null;
-
-        if (width <= 0) {
-            Log.e(TAG, "Invalid cover width requested");
-            return null;
-        }
-
-        // if external storage is not available, skip covers to prevent slow audio browsing
-        if (!AndroidDevices.hasExternalStorage())
-            return null;
-
-        try {
-            // try to load from cache
-            if (media.getArtist() != null && media.getAlbum() != null) {
-                cachePath = getCoverCachePath(context, media, width);
-
-                // try to get the cover from the LRUCache first
-                cover = cache.getBitmapFromMemCache(cachePath);
-                if (cover != null)
-                    return cover;
-
-                // try to get the cover from the storage cache
-                cacheFile = new File(cachePath);
-                if (cacheFile.exists()) {
-                    if (cacheFile.length() > 0)
-                        coverPath = cachePath;
-                    else
-                        return null;
-                }
-            }
-
-            // try to get it from VLC
-            if (coverPath == null || !cacheFile.exists())
-                coverPath = getCoverFromVlc(context, media);
-
-            // try to get the cover from android MediaStore
-            if (coverPath == null || !(new File(coverPath)).exists())
-                coverPath = getCoverFromMediaStore(context, media);
-
-            // no found yet, looking in folder
-            if (coverPath == null || !(new File(coverPath)).exists())
-                coverPath = getCoverFromFolder(media);
-
-            // read (and scale?) the bitmap
-            cover = readCoverBitmap(coverPath, width);
-
-            // store cover into both cache
-            if (cachePath != null) {
-                writeBitmap(cover, cachePath);
-                cache.addBitmapToMemCache(cachePath, cover);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return cover;
+//        BitmapCache cache = BitmapCache.getInstance();
+//        String coverPath = null;
+//        Bitmap cover = null;
+//        String cachePath = null;
+//        File cacheFile = null;
+//
+//        if (width <= 0) {
+//            Log.e(TAG, "Invalid cover width requested");
+//            return null;
+//        }
+//
+//        // if external storage is not available, skip covers to prevent slow audio browsing
+//        if (!AndroidDevices.hasExternalStorage())
+//            return null;
+//
+//        try {
+//            // try to load from cache
+//            if (media.getArtist() != null && media.getAlbum() != null) {
+//                cachePath = getCoverCachePath(context, media, width);
+//
+//                // try to get the cover from the LRUCache first
+//                cover = cache.getBitmapFromMemCache(cachePath);
+//                if (cover != null)
+//                    return cover;
+//
+//                // try to get the cover from the storage cache
+//                cacheFile = new File(cachePath);
+//                if (cacheFile.exists()) {
+//                    if (cacheFile.length() > 0)
+//                        coverPath = cachePath;
+//                    else
+//                        return null;
+//                }
+//            }
+//
+//            // try to get it from VLC
+//            if (coverPath == null || !cacheFile.exists())
+//                coverPath = getCoverFromVlc(context, media);
+//
+//            // try to get the cover from android MediaStore
+//            if (coverPath == null || !(new File(coverPath)).exists())
+//                coverPath = getCoverFromMediaStore(context, media);
+//
+//            // no found yet, looking in folder
+//            if (coverPath == null || !(new File(coverPath)).exists())
+//                coverPath = getCoverFromFolder(media);
+//
+//            // read (and scale?) the bitmap
+//            cover = readCoverBitmap(coverPath, width);
+//
+//            // store cover into both cache
+//            if (cachePath != null) {
+//                writeBitmap(cover, cachePath);
+//                cache.addBitmapToMemCache(cachePath, cover);
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return cover;
+        return null;
     }
 
     private static void writeBitmap(Bitmap bitmap, String path) throws IOException {

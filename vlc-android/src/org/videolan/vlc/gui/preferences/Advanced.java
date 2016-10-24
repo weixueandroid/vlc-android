@@ -23,24 +23,16 @@
 
 package org.videolan.vlc.gui.preferences;
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
-import android.text.TextUtils;
-import android.widget.Toast;
 
 import org.videolan.libvlc.util.HWDecoderUtil;
-import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
@@ -142,28 +134,28 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
     public boolean onPreferenceTreeClick(Preference preference) {
         switch (preference.getKey()) {
             case "clear_history":
-                new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.clear_history)
-                        .setMessage(R.string.validation)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                MediaDatabase db = MediaDatabase.getInstance();
-                                db.clearSearchHistory();
-                            }
-                        })
-
-                        .setNegativeButton(android.R.string.cancel, null).show();
-                return true;
+//                new AlertDialog.Builder(getActivity())
+//                        .setTitle(R.string.clear_history)
+//                        .setMessage(R.string.validation)
+//                        .setIcon(android.R.drawable.ic_dialog_alert)
+//                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int whichButton) {
+//                                MediaDatabase db = MediaDatabase.getInstance();
+//                                db.clearSearchHistory();
+//                            }
+//                        })
+//
+//                        .setNegativeButton(android.R.string.cancel, null).show();
+//                return true;
             case "clear_media_db":
-                MediaDatabase.getInstance().emptyDatabase();
-                BitmapCache.getInstance().clear();
-                AudioUtil.clearCacheFolders();
-                getActivity().setResult(PreferencesActivity.RESULT_RESCAN);
-                UiTools.snacker(getView(), R.string.media_db_cleared);
-                return true;
+//                MediaDatabase.getInstance().emptyDatabase();
+//                BitmapCache.getInstance().clear();
+//                AudioUtil.clearCacheFolders();
+//                getActivity().setResult(PreferencesActivity.RESULT_RESCAN);
+//                UiTools.snacker(getView(), R.string.media_db_cleared);
+//                return true;
             case "quit_app":
                 android.os.Process.killProcess(android.os.Process.myPid());
                 return true;

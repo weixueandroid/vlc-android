@@ -33,12 +33,6 @@ public class MediaUtils {
         VLCApp.getInstance().onCreate();
     }
 
-    public static void actionScanStart() {
-        Intent intent = new Intent();
-        intent.setAction(ACTION_SCAN_START);
-        LocalBroadcastManager.getInstance(VLCApp.getInstance().getAppContext()).sendBroadcast(intent);
-    }
-
 //    public static void getSubs(Activity activity, ArrayList<MediaWrapper> mediaList) {
 //        if (sSubtitlesDownloader == null)
 //            sSubtitlesDownloader = new SubtitlesDownloader();

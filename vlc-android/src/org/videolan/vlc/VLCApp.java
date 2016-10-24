@@ -32,10 +32,7 @@ import android.util.Log;
 
 import org.videolan.libvlc.Dialog;
 import org.videolan.vlc.gui.DialogActivity;
-import org.videolan.vlc.gui.dialogs.VlcProgressDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.gui.helpers.BitmapCache;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
@@ -122,7 +119,7 @@ public class VLCApp {
                     context.getResources().getDisplayMetrics());
         }
         // Initialize the database soon enough to avoid any race condition and crash
-        MediaDatabase.getInstance();
+//        MediaDatabase.getInstance();
         // Prepare cache folder constants
         AudioUtil.prepareCacheFolder(context);
 
@@ -141,13 +138,13 @@ public class VLCApp {
     public void onLowMemory() {
         Log.w(TAG, "System is running low on memory");
 
-        BitmapCache.getInstance().clear();
+//        BitmapCache.getInstance().clear();
     }
 
     public void onTrimMemory(int level) {
         Log.w(TAG, "onTrimMemory, level: "+level);
 
-        BitmapCache.getInstance().clear();
+//        BitmapCache.getInstance().clear();
     }
 
     /**
@@ -210,14 +207,14 @@ public class VLCApp {
 
         @Override
         public void onCanceled(Dialog dialog) {
-            ((DialogFragment)dialog.getContext()).dismiss();
+            //((DialogFragment)dialog.getContext()).dismiss();
         }
 
         @Override
         public void onProgressUpdate(Dialog.ProgressDialog dialog) {
-            VlcProgressDialog vlcProgressDialog = (VlcProgressDialog) dialog.getContext();
-            if (vlcProgressDialog != null && vlcProgressDialog.isVisible())
-                vlcProgressDialog.updateProgress();
+//            VlcProgressDialog vlcProgressDialog = (VlcProgressDialog) dialog.getContext();
+//            if (vlcProgressDialog != null && vlcProgressDialog.isVisible())
+//                vlcProgressDialog.updateProgress();
         }
     };
 

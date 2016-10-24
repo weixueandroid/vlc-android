@@ -27,11 +27,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import org.videolan.vlc.gui.dialogs.VlcDialog;
-import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
-import org.videolan.vlc.gui.dialogs.VlcProgressDialog;
-import org.videolan.vlc.gui.dialogs.VlcQuestionDialog;
-
 public class DialogActivity extends AppCompatActivity {
 
     public static final String KEY_LOGIN = "LoginDialog";
@@ -42,34 +37,13 @@ public class DialogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String key = getIntent().getAction();
-        if (key.startsWith(KEY_LOGIN))
-            setupLoginDialog(key);
-        else if (key.startsWith(KEY_QUESTION))
-            setupQuestionDialog(key);
-        else if (key.startsWith(KEY_PROGRESS))
-            setupProgressDialog(key);
-        else
-            finish();
-    }
-
-    private void setupLoginDialog(String key) {
-        VlcLoginDialog dialog = new VlcLoginDialog();
-        startVlcDialog(key, dialog);
-    }
-
-    private void setupQuestionDialog(String key) {
-        VlcQuestionDialog dialog = new VlcQuestionDialog();
-        startVlcDialog(key, dialog);
-    }
-
-    private void setupProgressDialog(String key) {
-        VlcProgressDialog dialog = new VlcProgressDialog();
-        startVlcDialog(key, dialog);
-    }
-
-    private void startVlcDialog(String key, VlcDialog dialog) {
-        dialog.init(key);
-        FragmentManager fm = getSupportFragmentManager();
-        dialog.show(fm, key);
+//        if (key.startsWith(KEY_LOGIN))
+//            setupLoginDialog(key);
+//        else if (key.startsWith(KEY_QUESTION))
+//            setupQuestionDialog(key);
+//        else if (key.startsWith(KEY_PROGRESS))
+//            setupProgressDialog(key);
+//        else
+//            finish();
     }
 }

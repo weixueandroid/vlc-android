@@ -33,7 +33,6 @@ import org.videolan.libvlc.Media.Meta;
 import org.videolan.libvlc.Media.VideoTrack;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.Extensions;
-import org.videolan.vlc.gui.helpers.BitmapUtil;
 
 import java.util.Locale;
 
@@ -327,14 +326,6 @@ public class MediaWrapper implements Parcelable {
         return mHeight;
     }
 
-    /**
-     * Returns the raw picture object. Likely to be NULL in VLC for Android
-     * due to lazy-loading.
-     *
-     * Use {@link BitmapUtil#getPictureFromCache(MediaWrapper)} instead.
-     *
-     * @return The raw picture or NULL
-     */
     public Bitmap getPicture() {
         return mPicture;
     }

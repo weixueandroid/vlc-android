@@ -48,16 +48,13 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
@@ -100,17 +97,11 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApp;
-import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
-import org.videolan.vlc.gui.audio.PlaylistAdapter;
-import org.videolan.vlc.gui.browser.FilePickerActivity;
-import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
-import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesUi;
 import org.videolan.vlc.interfaces.IPlaybackSettingsController;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
@@ -129,11 +120,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
         GestureDetector.OnDoubleTapListener, IPlaybackSettingsController,
-        PlaybackService.Client.Callback, PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, View.OnLongClickListener {
+        PlaybackService.Client.Callback, PlaybackService.Callback, OnClickListener, View.OnLongClickListener {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -174,7 +164,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private ImageView mPlaylistToggle;
     private RecyclerView mPlaylist;
-    private PlaylistAdapter mPlaylistAdapter;
     private ImageView mPlaylistNext;
     private ImageView mPlaylistPrevious;
 
@@ -482,19 +471,19 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
 
             //Set margins for TV overscan
-            if (VLCApp.showTvUi()) {
-                int hm = getResources().getDimensionPixelSize(R.dimen.tv_overscan_horizontal);
-                int vm = getResources().getDimensionPixelSize(R.dimen.tv_overscan_vertical);
-
-                RelativeLayout uiContainer = (RelativeLayout) findViewById(R.id.player_ui_container);
-                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) uiContainer.getLayoutParams();
-                lp.setMargins(hm, 0, hm, vm);
-                uiContainer.setLayoutParams(lp);
-
-                LinearLayout.LayoutParams titleParams = (LinearLayout.LayoutParams) mTitle.getLayoutParams();
-                titleParams.setMargins(0, vm, 0, 0);
-                mTitle.setLayoutParams(titleParams);
-            }
+//            if (VLCApp.showTvUi()) {
+//                int hm = getResources().getDimensionPixelSize(R.dimen.tv_overscan_horizontal);
+//                int vm = getResources().getDimensionPixelSize(R.dimen.tv_overscan_vertical);
+//
+//                RelativeLayout uiContainer = (RelativeLayout) findViewById(R.id.player_ui_container);
+//                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) uiContainer.getLayoutParams();
+//                lp.setMargins(hm, 0, hm, vm);
+//                uiContainer.setLayoutParams(lp);
+//
+//                LinearLayout.LayoutParams titleParams = (LinearLayout.LayoutParams) mTitle.getLayoutParams();
+//                titleParams.setMargins(0, vm, 0, 0);
+//                mTitle.setLayoutParams(titleParams);
+//            }
         }
 
         resetHudLayout();
@@ -559,8 +548,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             updatePausable(mService.isPausable());
             mTitle.setText(mService.getCurrentMediaWrapper().getTitle());
             if (mPlaylist.getVisibility() == View.VISIBLE) {
-                mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
-                mPlaylist.setVisibility(View.GONE);
+//                mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
+//                mPlaylist.setVisibility(View.GONE);
             }
             showTitle();
             initUI();
@@ -744,28 +733,28 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mService.setRate(mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f));
 
         if (mService.hasPlaylist()) {
-            mPlaylistPrevious = (ImageView) findViewById(R.id.playlist_previous);
-            mPlaylistNext = (ImageView) findViewById(R.id.playlist_next);
-            mPlaylistAdapter = new PlaylistAdapter(this);
-            mPlaylistAdapter.setService(mService);
-            final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            mPlaylist.setLayoutManager(layoutManager);
-            mPlaylistToggle.setVisibility(View.VISIBLE);
-            mPlaylistPrevious.setVisibility(View.VISIBLE);
-            mPlaylistNext.setVisibility(View.VISIBLE);
-            mPlaylistToggle.setOnClickListener(VideoPlayerActivity.this);
-            mPlaylistPrevious.setOnClickListener(VideoPlayerActivity.this);
-            mPlaylistNext.setOnClickListener(VideoPlayerActivity.this);
-            mSeekbar.setNextFocusUpId(mPlaylistToggle.getId());
-
-            ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
-            ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-            touchHelper.attachToRecyclerView(mPlaylist);
-            if (AndroidUtil.isJellyBeanMR1OrLater() && TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
-                mPlaylistPrevious.setImageResource(R.drawable.ic_playlist_next_circle);
-                mPlaylistNext.setImageResource(R.drawable.ic_playlist_previous_circle);
-            }
+//            mPlaylistPrevious = (ImageView) findViewById(R.id.playlist_previous);
+//            mPlaylistNext = (ImageView) findViewById(R.id.playlist_next);
+//            mPlaylistAdapter = new PlaylistAdapter(this);
+//            mPlaylistAdapter.setService(mService);
+//            final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+//            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//            mPlaylist.setLayoutManager(layoutManager);
+//            mPlaylistToggle.setVisibility(View.VISIBLE);
+//            mPlaylistPrevious.setVisibility(View.VISIBLE);
+//            mPlaylistNext.setVisibility(View.VISIBLE);
+//            mPlaylistToggle.setOnClickListener(VideoPlayerActivity.this);
+//            mPlaylistPrevious.setOnClickListener(VideoPlayerActivity.this);
+//            mPlaylistNext.setOnClickListener(VideoPlayerActivity.this);
+//            mSeekbar.setNextFocusUpId(mPlaylistToggle.getId());
+//
+//            ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
+//            ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+//            touchHelper.attachToRecyclerView(mPlaylist);
+//            if (AndroidUtil.isJellyBeanMR1OrLater() && TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
+//                mPlaylistPrevious.setImageResource(R.drawable.ic_playlist_next_circle);
+//                mPlaylistNext.setImageResource(R.drawable.ic_playlist_previous_circle);
+//            }
         }
 
     }
@@ -859,15 +848,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         SharedPreferences.Editor editor = mSettings.edit();
         // Save position
         if (mService.isSeekable()) {
-            if(MediaDatabase.getInstance().mediaItemExists(mUri)) {
-                MediaDatabase.getInstance().updateMedia(
-                        mUri,
-                        MediaDatabase.INDEX_MEDIA_TIME,
-                        time);
-            } else {
-                // Video file not in media library, store time just for onResume()
-                editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time);
-            }
+//            if(MediaDatabase.getInstance().mediaItemExists(mUri)) {
+//                MediaDatabase.getInstance().updateMedia(
+//                        mUri,
+//                        MediaDatabase.INDEX_MEDIA_TIME,
+//                        time);
+//            } else {
+//                // Video file not in media library, store time just for onResume()
+//                editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time);
+//            }
         }
         // Save selected subtitles
         String subtitleList_serialized = null;
@@ -1108,16 +1097,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             switch (keyCode) {
                 case KeyEvent.KEYCODE_DPAD_UP:
                 case KeyEvent.KEYCODE_DPAD_LEFT:
-                    mPlaylistAdapter.setCurrentIndex(mPlaylistAdapter.getCurrentIndex() - 1);
+                 //   mPlaylistAdapter.setCurrentIndex(mPlaylistAdapter.getCurrentIndex() - 1);
                     break;
                 case KeyEvent.KEYCODE_DPAD_DOWN:
                 case KeyEvent.KEYCODE_DPAD_RIGHT:
-                    mPlaylistAdapter.setCurrentIndex(mPlaylistAdapter.getCurrentIndex() + 1);
+                 //   mPlaylistAdapter.setCurrentIndex(mPlaylistAdapter.getCurrentIndex() + 1);
                     break;
                 case KeyEvent.KEYCODE_ENTER:
                 case KeyEvent.KEYCODE_DPAD_CENTER:
                 case KeyEvent.KEYCODE_BUTTON_A:
-                    mService.playIndex(mPlaylistAdapter.getCurrentIndex());
+                //    mService.playIndex(mPlaylistAdapter.getCurrentIndex());
                     break;
             }
             return true;
@@ -1710,8 +1699,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSwitchingView = true;
         // Show the MainActivity if it is not in background.
         if (showUI) {
-            Intent i = new Intent(this,  MainActivity.class);
-            startActivity(i);
+//            Intent i = new Intent(this,  MainActivity.class);
+//            startActivity(i);
         } else
             Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, true));
         exitOK();
@@ -2140,10 +2129,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 } else if (item.getItemId() == R.id.video_menu_subtitles_picker) {
                     if (mUri == null)
                         return false;
-                    Intent filePickerIntent = new Intent(context, FilePickerActivity.class);
-                    if (TextUtils.equals(mUri.getScheme(), "file"))
-                        filePickerIntent.setData(Uri.parse(FileUtils.getParent(mUri.toString())));
-                    context.startActivityForResult(filePickerIntent, 0);
+//                    Intent filePickerIntent = new Intent(context, FilePickerActivity.class);
+//                    if (TextUtils.equals(mUri.getScheme(), "file"))
+//                        filePickerIntent.setData(Uri.parse(FileUtils.getParent(mUri.toString())));
+//                    context.startActivityForResult(filePickerIntent, 0);
                     return true;
                 }
                 return false;
@@ -2153,7 +2142,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         showOverlay();
     }
 
-    @Override
     public void onPopupMenu(View anchor, final int position) {
         PopupMenu popupMenu = new PopupMenu(this, anchor);
         popupMenu.getMenuInflater().inflate(R.menu.audio_player, popupMenu.getMenu());
@@ -2163,7 +2151,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId() == R.id.audio_player_mini_remove) {
                     if (mService != null) {
-                        mPlaylistAdapter.remove(position);
+                     //   mPlaylistAdapter.remove(position);
                         mService.remove(position);
                         return true;
                     }
@@ -2174,32 +2162,30 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         popupMenu.show();
     }
 
-    @Override
     public void updateList() {
-        int oldCount = mPlaylistAdapter.getItemCount();
-        if (mService == null)
-            return;
-
-        mPlaylistAdapter.clear();
-
-        mPlaylistAdapter.addAll(mService.getMedias());
-        int count = mPlaylistAdapter.getItemCount();
-        if (oldCount != count)
-            mPlaylistAdapter.notifyDataSetChanged();
-        else
-            mPlaylistAdapter.notifyItemRangeChanged(0, count);
-
-        final int selectionIndex = mService.getCurrentMediaPosition();
-        mPlaylist.post(new Runnable() {
-            @Override
-            public void run() {
-                mPlaylistAdapter.setCurrentIndex(selectionIndex);
-                mPlaylist.scrollToPosition(selectionIndex);
-            }
-        });
+//        int oldCount = mPlaylistAdapter.getItemCount();
+//        if (mService == null)
+//            return;
+//
+//        mPlaylistAdapter.clear();
+//
+//        mPlaylistAdapter.addAll(mService.getMedias());
+//        int count = mPlaylistAdapter.getItemCount();
+//        if (oldCount != count)
+//            mPlaylistAdapter.notifyDataSetChanged();
+//        else
+//            mPlaylistAdapter.notifyItemRangeChanged(0, count);
+//
+//        final int selectionIndex = mService.getCurrentMediaPosition();
+//        mPlaylist.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mPlaylistAdapter.setCurrentIndex(selectionIndex);
+//                mPlaylist.scrollToPosition(selectionIndex);
+//            }
+//        });
 }
 
-    @Override
     public void onSelectionSet(int position) {
         mPlaylist.scrollToPosition(position);
     }
@@ -2337,13 +2323,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 new TrackSelectedListener() {
                     @Override
                     public boolean onTrackSelected(int trackID) {
-                        if (trackID < -1 || mService == null)
-                            return false;
-                        MediaDatabase.getInstance().updateMedia(
-                                mUri,
-                                MediaDatabase.INDEX_MEDIA_AUDIOTRACK,
-                                trackID);
-                        mService.setAudioTrack(trackID);
+//                        if (trackID < -1 || mService == null)
+//                            return false;
+//                        MediaDatabase.getInstance().updateMedia(
+//                                mUri,
+//                                MediaDatabase.INDEX_MEDIA_AUDIOTRACK,
+//                                trackID);
+//                        mService.setAudioTrack(trackID);
                         return true;
                     }
                 });
@@ -2355,14 +2341,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 new TrackSelectedListener() {
                     @Override
                     public boolean onTrackSelected(int trackID) {
-                        if (trackID < -1 || mService == null)
-                            return false;
-
-                        MediaDatabase.getInstance().updateMedia(
-                                mUri,
-                                MediaDatabase.INDEX_MEDIA_SPUTRACK,
-                                trackID);
-                        mService.setSpuTrack(trackID);
+//                        if (trackID < -1 || mService == null)
+//                            return false;
+//
+//                        MediaDatabase.getInstance().updateMedia(
+//                                mUri,
+//                                MediaDatabase.INDEX_MEDIA_SPUTRACK,
+//                                trackID);
+//                        mService.setSpuTrack(trackID);
                         return true;
                     }
                 });
@@ -2709,9 +2695,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         int time = (int) getTime();
         int length = (int) mService.getLength();
         if (length == 0) {
-            MediaWrapper media = MediaDatabase.getInstance().getMedia(mUri);
-            if (media != null)
-                length = (int) media.getLength();
+//            MediaWrapper media = MediaDatabase.getInstance().getMedia(mUri);
+//            if (media != null)
+//                length = (int) media.getLength();
         }
 
         // Update all view elements
@@ -2852,29 +2838,29 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (mService.hasMedia() && !mUri.equals(mService.getCurrentMediaWrapper().getUri()))
                 mService.stop();
             // restore last position
-            MediaWrapper media = MediaDatabase.getInstance().getMedia(mUri);
-            if (media == null && TextUtils.equals(mUri.getScheme(), "file") &&
-                    mUri.getPath() != null && mUri.getPath().startsWith("/sdcard")) {
-                mUri = FileUtils.convertLocalUri(mUri);
-                media = MediaDatabase.getInstance().getMedia(mUri);
-            }
-            if (media != null) {
-                // in media library
-                if (media.getTime() > 0 && !fromStart && positionInPlaylist == -1) {
-                    if (mAskResume) {
-                        showConfirmResumeDialog();
-                        return;
-                    }
-                }
-                // Consume fromStart option after first use to prevent
-                // restarting again when playback is paused.
-                intent.putExtra(PLAY_EXTRA_FROM_START, false);
-                if (fromStart || mService.isPlaying())
-                    media.setTime(0l);
-
-                mLastAudioTrack = media.getAudioTrack();
-                mLastSpuTrack = media.getSpuTrack();
-            } else {
+//            MediaWrapper media = MediaDatabase.getInstance().getMedia(mUri);
+//            if (media == null && TextUtils.equals(mUri.getScheme(), "file") &&
+//                    mUri.getPath() != null && mUri.getPath().startsWith("/sdcard")) {
+//                mUri = FileUtils.convertLocalUri(mUri);
+//                media = MediaDatabase.getInstance().getMedia(mUri);
+//            }
+//            if (media != null) {
+//                // in media library
+//                if (media.getTime() > 0 && !fromStart && positionInPlaylist == -1) {
+//                    if (mAskResume) {
+//                        showConfirmResumeDialog();
+//                        return;
+//                    }
+//                }
+//                // Consume fromStart option after first use to prevent
+//                // restarting again when playback is paused.
+//                intent.putExtra(PLAY_EXTRA_FROM_START, false);
+//                if (fromStart || mService.isPlaying())
+//                    media.setTime(0l);
+//
+//                mLastAudioTrack = media.getAudioTrack();
+//                mLastSpuTrack = media.getSpuTrack();
+//            } else {
                 // not in media library
 
                 if (intentPosition > 0 && mAskResume) {
@@ -2894,26 +2880,26 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         }
                     }
                 }
-            }
+//            }
 
             // Start playback & seek
             mService.addCallback(this);
             /* prepare playback */
             boolean hasMedia = mService.hasMedia();
-            if (media == null)
-                media = hasMedia ? mService.getCurrentMediaWrapper() : new MediaWrapper(mUri);
-            if (mWasPaused)
-                media.addFlags(MediaWrapper.MEDIA_PAUSED);
-            if (mHardwareAccelerationError || intent.hasExtra(PLAY_DISABLE_HARDWARE))
-                media.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
-            media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-            media.addFlags(MediaWrapper.MEDIA_VIDEO);
+//            if (media == null)
+//                media = hasMedia ? mService.getCurrentMediaWrapper() : new MediaWrapper(mUri);
+//            if (mWasPaused)
+//                media.addFlags(MediaWrapper.MEDIA_PAUSED);
+//            if (mHardwareAccelerationError || intent.hasExtra(PLAY_DISABLE_HARDWARE))
+//                media.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
+//            media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+//            media.addFlags(MediaWrapper.MEDIA_VIDEO);
 
             boolean seek = true;
             // Handle playback
-            if (!hasMedia)
-                mService.load(media);
-            else if (!mService.isPlaying())
+            if (!hasMedia) {
+                // mService.load(media);
+            } else if (!mService.isPlaying())
                 mService.playIndex(positionInPlaylist);
             else {
                 seek = false;
@@ -2923,10 +2909,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (seek) {
                 // Set time
                 long resumeTime = intentPosition;
-                if (intentPosition <= 0 && media != null && media.getTime() > 0l)
-                    resumeTime = media.getTime();
-                if (resumeTime > 0)
-                    seek(resumeTime);
+//                if (intentPosition <= 0 && media != null && media.getTime() > 0l)
+//                    resumeTime = media.getTime();
+//                if (resumeTime > 0)
+//                    seek(resumeTime);
             }
 
             // Get possible subtitles
@@ -3095,28 +3081,28 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public void showAdvancedOptions() {
-        FragmentManager fm = getSupportFragmentManager();
-        AdvOptionsDialog advOptionsDialog = new AdvOptionsDialog();
-        advOptionsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                dimStatusBar(true);
-            }
-        });
-        advOptionsDialog.show(fm, "fragment_adv_options");
-        hideOverlay(false);
+//        FragmentManager fm = getSupportFragmentManager();
+//        AdvOptionsDialog advOptionsDialog = new AdvOptionsDialog();
+//        advOptionsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialog) {
+//                dimStatusBar(true);
+//            }
+//        });
+//        advOptionsDialog.show(fm, "fragment_adv_options");
+//        hideOverlay(false);
     }
 
     private void togglePlaylist() {
-        if (mPlaylist.getVisibility() == View.VISIBLE) {
-            mPlaylist.setVisibility(View.GONE);
-            mPlaylist.setOnClickListener(null);
-            return;
-        }
-        hideOverlay(true);
-        mPlaylist.setVisibility(View.VISIBLE);
-        mPlaylist.setAdapter(mPlaylistAdapter);
-        updateList();
+//        if (mPlaylist.getVisibility() == View.VISIBLE) {
+//            mPlaylist.setVisibility(View.GONE);
+//            mPlaylist.setOnClickListener(null);
+//            return;
+//        }
+//        hideOverlay(true);
+//        mPlaylist.setVisibility(View.VISIBLE);
+//        mPlaylist.setAdapter(mPlaylistAdapter);
+//        updateList();
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

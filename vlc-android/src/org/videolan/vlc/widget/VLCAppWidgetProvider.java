@@ -36,8 +36,6 @@ import android.widget.RemoteViews;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApp;
-import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.Strings;
 
 import java.util.Locale;
@@ -88,19 +86,19 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
             Intent iPlay = new Intent(ACTION_REMOTE_PLAYPAUSE);
             Intent iStop = new Intent(ACTION_REMOTE_STOP);
             Intent iForward = new Intent(ACTION_REMOTE_FORWARD);
-            Intent iVlc = new Intent(VLCApp.getInstance().getAppContext(), MainActivity.class);
+            //Intent iVlc = new Intent(VLCApp.getInstance().getAppContext(), MainActivity.class);
 
             PendingIntent piBackward = PendingIntent.getBroadcast(context, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
             PendingIntent piPlay = PendingIntent.getBroadcast(context, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT);
             PendingIntent piStop = PendingIntent.getBroadcast(context, 0, iStop, PendingIntent.FLAG_UPDATE_CURRENT);
             PendingIntent piForward = PendingIntent.getBroadcast(context, 0, iForward, PendingIntent.FLAG_UPDATE_CURRENT);
-            PendingIntent piVlc = PendingIntent.getActivity(context, 0, iVlc, PendingIntent.FLAG_UPDATE_CURRENT);
+          //  PendingIntent piVlc = PendingIntent.getActivity(context, 0, iVlc, PendingIntent.FLAG_UPDATE_CURRENT);
 
             views.setOnClickPendingIntent(R.id.backward, piBackward);
             views.setOnClickPendingIntent(R.id.play_pause, piPlay);
             views.setOnClickPendingIntent(R.id.stop, piStop);
             views.setOnClickPendingIntent(R.id.forward, piForward);
-            views.setOnClickPendingIntent(R.id.cover, piVlc);
+          //  views.setOnClickPendingIntent(R.id.cover, piVlc);
             partial = false;
             if (AndroidUtil.isJellyBeanMR1OrLater() && TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
                 boolean black = this instanceof VLCAppWidgetProviderBlack;
